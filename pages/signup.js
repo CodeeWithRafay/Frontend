@@ -258,7 +258,7 @@ const SignupPage = () =>
               </div>
 
               <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                sitekey="6Ld2cGspAAAAABeeefHgheLz2fHX-nSWdtRKZSTx" 
                 onChange={handleRecaptchaChange}
                 className="mb-4"
               />
