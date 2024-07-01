@@ -1,12 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Fetching } from './api/fetching';
 import Spinner from '@/components/Spinner';
 import Head from 'next/head';
+import { toast } from 'react-toastify';
 
-const Page = () =>
+const Work = () =>
 {
   const [loading, setLoading] = useState(true);
   const [Work, setWork] = useState([]);
@@ -22,7 +22,7 @@ const Page = () =>
         setWork(mappedDocuments);
         setLoading(false);
       } catch (error) {
-        // console.error('Error fetching blogs:', error);
+        toast.error("Something Went Wrong!, Please come back after some time")
       }
     };
 
@@ -36,13 +36,9 @@ const Page = () =>
       <Head>
         <title>Our Work | CodeWithRafay</title>
         <meta name="description" content="Explore the portfolio of CodeWithRafay. See our past projects and the quality of work we deliver in web development, CMS, e-commerce, and more." />
+        <link rel="canonical" href="https://codewithrafay.com/work" />
       </Head>
 
-      <style global jsx>{`
-          *{
-            margin:0;
-          }
-      `}</style>
       <div className='min-h-screen'>
         <div className='my-1'>
           {loading ? (
@@ -63,7 +59,7 @@ const Page = () =>
                           className="absolute inset-0 w-full h-full border-t-2 dark:border-none"
                           src={`${item.ProjectImage}`}
                           style={{ borderRadius: "1rem 1rem 0 0" }}
-                          alt="img"
+                          alt="image project CodeWithRafay"
                         />
                       </div>
                       <div className='px-6 pt-4 pb-2'>
@@ -71,7 +67,7 @@ const Page = () =>
                         <h3 className='font-medium text-lg overflow-hidden overflow-ellipsis whitespace-nowrap dark:text-white'>{item.ProjectTitle}</h3>
                         <p className='mt-3 h-32 dark:text-gray-400'>{item.ProjectDesc}</p>
                         <div className='mt-6'>
-                          <Link href={item.LinkToProject} target='_blank'> <button type="button" className="text-white   bg-purple-700 hover:bg-purple-600 focus:outline-none  focus:ring-purple-300 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2 dark:bg-purple-700 dark:hover:bg-purple-600 ">Live Preview!</button></Link>
+                          <a href={item.LinkToProject} target='_blank' aria-label="Project Preview"> <button type="button" className="text-white   bg-purple-700 hover:bg-purple-600 focus:outline-none  focus:ring-purple-300 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2 dark:bg-purple-700 dark:hover:bg-purple-600 transition-all">Live Preview</button></a>
                         </div>
                       </div>
                     </div>
@@ -88,4 +84,4 @@ const Page = () =>
 }
 
 
-export default Page
+export default Work;

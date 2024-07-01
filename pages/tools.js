@@ -1,21 +1,19 @@
-'use client'
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 
-const Page = () =>
+const Tools = () =>
 {
   return (
     <>
-     <title>Tools | CodeWithRafay</title>
-<meta name="description" content="Explore CodeWithRafay's tools page for useful utilities like word counters, text editors, and more. Enhance your productivity with our handy web development tools."/>
 
-      <style global jsx>{ `
-          *{
-            margin:0;
-          }
-      `}</style>
-      <div className='min-h-screen'>
+      <Head>
+        <title>Tools | CodeWithRafay</title>
+        <meta name="description" content="Explore CodeWithRafay's tools page for useful utilities like word counters, text editors, and more. Enhance your productivity with our handy web development tools." />
+        <link rel="canonical" href="https://codewithrafay.com/tools" />
+      </Head>
+      <section className='min-h-screen'>
         <div className="pt-3 w-full container mx-auto flex justify-center items-center flex-col mb-16 my-4">
           <h2 className='capitalize text-3xl font-semibold text-center text-purple-700 dark:text-purple-500
         00'>Our Tools</h2>
@@ -46,15 +44,15 @@ const Page = () =>
                 </div>
 
               </div>
-             
+
 
             </div>
           </section>
         </div>
-      </div>
+      </section>
     </>
   )
 }
 
 
-export default Page
+export default Tools;

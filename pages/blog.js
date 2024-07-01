@@ -7,7 +7,7 @@ import Head from 'next/head';
 import { Client, Databases, Query } from "appwrite";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Page = () =>
+const Blog = () =>
 {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
@@ -15,7 +15,7 @@ const Page = () =>
   const [cursor, setCursor] = useState(null);
 
   const collectionId = '65e6a2957e9c71c0db5c';
-  const limit = 5;
+  const limit = 10;
 
   const getMorePost = async () =>
   {
@@ -53,28 +53,21 @@ const Page = () =>
 
       setLoading(false);
     } catch (error) {
-      // console.error('Error fetching blogs:', error);
+
     }
   };
 
   useEffect(() =>
   {
     getMorePost();
-  },[]);
+  }, []);
 
   return (
     <>
-
-      <style global jsx>{`
-      ::scrollbar {
-        overflow-y: hidden; 
-        display:none !important
-      }
-  
-`}</style>
       <Head>
         <title>Blog | CodeWithRafay</title>
         <meta name="description" content="Read the latest blog posts from CodeWithRafay on web development, coding, and the latest technologies. Stay updated with our informative articles." />
+        <link rel="canonical" href="https://codewithrafay.com/blog" />
       </Head>
 
       {loading ? (
@@ -99,8 +92,8 @@ const Page = () =>
                   <div className='px-8 py-6 rounded-lg bg-white shadow-md blog-container-item dark:bg-slate-700 border dark:border-gray-600' style={{ width: "65%" }}>
                     <h2 className='font-semibold text-3xl dark:text-white break-words'>{item.title}</h2>
                     <div className='flex mt-2 gap-1 items-center'>
-                      <Image width={30} className='rounded-full' src={logo} alt='img' />
-                      <h5 className='text-sm ml-1 dark:text-white text-gray-700'>CodeWithRafay</h5>
+                      <Image width={30} className='rounded-full' src={logo} alt='img CodeWithRafay' />
+                      <h5 className='text-sm ml-1 dark:text-white text-gray-700'>Abdul Rafay</h5>
                       <span className='text-gray-700 font-bold text-sm dark:text-gray-400'>&middot;</span>
                       <span className='text-sm dark:text-gray-400'>{new Date(item.CreatedOn).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                     </div>
@@ -119,4 +112,4 @@ const Page = () =>
   );
 };
 
-export default Page;
+export default Blog;

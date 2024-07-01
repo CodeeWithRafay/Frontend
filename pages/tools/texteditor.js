@@ -155,25 +155,27 @@ const TextEditor = () =>
     document.querySelector('.options').addEventListener('change', handleButtonClick);
     textInputRef.current.addEventListener('input', handleInput);
 
-  });
+  },[]);
 
   return (
     <>
 
       <Head>
-        <title>Blog | CodeWithRafay</title>
-        <meta name="description" content="Read the latest blog posts from CodeWithRafay on web development, coding, and the latest technologies. Stay updated with our informative articles." />
+        <title>TextEditor | CodeWithRafay</title>
+        <meta name="description" content="Discover our advanced Text Editor and Word Counter for effortless writing and formatting. Includes real-time counts, formatting options, image insertion, and more. Perfect for all your editing needs." />
+        <link rel="canonical" href="https://codewithrafay.com/tools/texteditor" />
+
       </Head>
       <style global jsx>{`
-        * {
-          margin: 0;
-        }
+
         button {
           margin: 0 5px;
         }
+
         .dark button {
           color:white;
         }
+
         body{
         background-color:#f4f4f4;
         }
@@ -183,7 +185,6 @@ const TextEditor = () =>
           text-decoration:underline;
           cursor:pointer;
         }
-
       
       `}</style>
       <div className="container mx-auto my-10 bg-white dark:bg-gray-800  p-8 rounded-lg shadow-lg min-h-screen">

@@ -1,31 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import ThemeContext from './ThemeContext';
-import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { HandleLogout } from '@/pages/api/post';
+import AuthContext from '@/components/AuthContext';
+
 
 export default function Navbar()
 {
-  const { data: session } = useSession();
+
   const [menuVisible, setMenuVisible] = useState(false);
   const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const { session, setSession } = useContext(AuthContext);
   const router = useRouter();
+
+
+
+  const handleSignOut = async () =>
+  {
+    const userLogout = await HandleLogout();
+    if (userLogout) {
+      setSession(null)
+      router.push('/login')
+    }
+  }
+
 
   const handleMenuClick = () =>
   {
     setMenuVisible(prevMenuVisible => !prevMenuVisible);
   };
 
-  const closeMenu = () =>
-  {
-    setMenuVisible(false);
-  };
-
-  const handleSignOut = async () =>
-  {
-    await signOut({ redirect: false });
-    router.push('/login');
-  };
 
   useEffect(() =>
   {
@@ -35,6 +40,7 @@ export default function Navbar()
     };
 
     router.events.on('routeChangeStart', handleRouteChange);
+
     return () =>
     {
       router.events.off('routeChangeStart', handleRouteChange);
@@ -44,17 +50,7 @@ export default function Navbar()
   return (
 
     <>
-      <style global jsx>{`
-          *{
-            margin:0;
-          }
 
-          html{
-            transition: all 0.3s ease;
-          }
-
-     
-      `}</style>
       <div className='navbar real-navbar w-full z-50 sticky bg-white top-0 border-b border-grey-light shadow-md dark:bg-gray-800 dark:border-black'>
         <div className="w-full flex flex-wrap items-center lg:justify-between py-3 pl-3 pr-3 first-nav ">
           <div className='flex items-center justify-between w-full text-center'>
@@ -65,18 +61,18 @@ export default function Navbar()
                 </button>
               </Link>
               <span className="title-font ml-3 font-semibold text-lg items-center text-purple-600 hidden menu cursor-progress" onClick={handleMenuClick} >
-                <span >Menu</span><svg className='h-5 font-bold dark:text-purple-300' xmlns="http://www.w3.org/2000/svg ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="M112 184l144 144 144-144" /></svg>
+                <span >Menu</span><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className="text-purple-700 mt-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"></path></svg>
               </span>
             </div>
             <div className='flex justify-center items-center'>
               <nav className="md:ml-auto flex flex-wrap items-center text-base font-normal justify-end text-black text-pretty nav dark:text-white">
                 <Link href="/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Home</Link>
-                <Link href="/services" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Services</Link>
-                <Link href="/tools" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Tools</Link>
-                <Link href="/blog" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Blog</Link>
-                <Link href="/work" className="nav-link cursor-pointer mr-5 hover:border-b-2 text-black dark:text-white  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Our Work</Link>
-                <Link href="/contact" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Contact</Link>
-                <Link href="/hire" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize" >Hire us</Link>
+                <Link href="/services/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Services</Link>
+                <Link href="/tools/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Tools</Link>
+                <Link href="/blog/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Blog</Link>
+                <Link href="/work/" className="nav-link cursor-pointer mr-5 hover:border-b-2 text-black dark:text-white  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Our Work</Link>
+                <Link href="/contact/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Contact</Link>
+                <Link href="/hire/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize" >Hire us</Link>
 
               </nav>
               <svg onClick={toggleTheme} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" className="dark:text-white mr-3 dark-svg md:block text-purple-700 mt-1 cursor-pointer " id="themeToggleBtn" height="28" width="28" xmlns="http://www.w3.org/2000/svg"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path></svg>

@@ -1,18 +1,33 @@
-
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReCAPTCHA from 'react-google-recaptcha';
-import logo from '@/image/logo.png';
-import LoginButton from '@/components/loginButton';
-import { account, ID } from './api/appwrite'
 import Head from 'next/head';
+import logo from '@/image/logo.png';
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
+import LoginButton from '@/components/loginButton'; 
+import { HandleSignup } from './api/post';
+import AuthContext from '@/components/AuthContext';
+import { useRouter } from 'next/router';
 
-const Page = () =>
+const SignupPage = () =>
 {
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const [Email, setEmail] = useState('')
-  const [Username, setUsername] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const { session, setSession } = useContext(AuthContext);
+  const router = useRouter()
+
+
+  useEffect(() =>
+  {
+    if (session) {
+      router.push('/')
+    }
+  }, [session, router])
 
 
   const handleEmailChange = (e) =>
@@ -20,24 +35,46 @@ const Page = () =>
     setEmail(e.target.value);
   };
 
-
+  const handlePasswordChange = (e) =>
+  {
+    setPassword(e.target.value);
+    setIsPasswordValid(isStrongPassword(e.target.value));
+  };
 
   const handleRecaptchaChange = (value) =>
   {
     setRecaptchaValue(value);
   };
 
-
-  const handleSignup = async () =>
+  function isStrongPassword(password)
   {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+    return passwordRegex.test(password);
+  }
+
+  const handleSubmit = async (e) =>
+  {
+    e.preventDefault();
+
+    // Check if reCAPTCHA value exists
+    if (!recaptchaValue) {
+      toast.error('Invalid reCaptcha');
+      return;
+    }
+
+    // Validate password strength
+    if (!isStrongPassword(password)) {
+      setIsPasswordValid(false);
+      return;
+    }
 
     try {
-      await account.create(ID.unique(), Email, Password);
+      await HandleSignup(email, password);
+
+    } catch (error) {
+      toast.error('Something Went Wrong! Try again later', { autoClose: 2000 });
     }
-    catch (error) {
-      // console.log(error);
-    }
-  }
+  };
 
   const hideSvg = (
     <svg
@@ -47,8 +84,22 @@ const Page = () =>
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15 11.999 15C12.8215 15 13.5667 14.669 14.1086 14.133M6.49902 6.64715C4.59972 7.90034 3.15305 9.78394 2.45703 12C3.73128 16.0571 7.52159 19 11.9992 19C13.9881 19 15.8414 18.4194 17.3988 17.4184M10.999 5.04939C11.328 5.01673 11.6617 5 11.9992 5C16.4769 5 20.2672 7.94291 21.5414 12C21.2607 12.894 20.8577 13.7338 20.3522 14.5"
-        stroke="#000000"
+        d="M1 12S4.5 4 12 4s11 8 11 8-3.5 8-11 8S1 12 1 12Z"
+        stroke="#000"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 15a3 3 0 100-6 3 3 0 000 6Z"
+        stroke="#000"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2 2l20 20"
+        stroke="#000"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -64,15 +115,15 @@ const Page = () =>
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
-        stroke="#000000"
+        d="M1 12S4.5 4 12 4s11 8 11 8-3.5 8-11 8S1 12 1 12Z"
+        stroke="#000"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
-        stroke="#000000"
+        d="M12 15a3 3 0 100-6 3 3 0 000 6Z"
+        stroke="#000"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -84,7 +135,26 @@ const Page = () =>
     <>
       <Head>
         <title>Signup | CodeWithRafay</title>
-        <meta name="description" content="Create a new account on CodeWithRafay to start using our web development services and tools. Join our community today." />
+        <meta
+          name="description"
+          content="Create a new account on CodeWithRafay to start using our web development services and tools. Join our community today."
+        />
+        <link rel="canonical" href="https://www.codewithrafay.com/signup" />
+        <meta
+          name="keywords"
+          content="codewithrafay,web development,portfolio,custom web development,CMS integration,e-commerce website development,web development projects"
+        />
+        <meta property="og:title" content="Signup | CodeWithRafay" />
+        <meta
+          property="og:description"
+          content="Create a new account on CodeWithRafay to start using our web development services and tools. Join our community today."
+        />
+        <meta property="og:url" content="https://www.codewithrafay.com/signup" />
+        <meta name="twitter:title" content="Signup | CodeWithRafay" />
+        <meta
+          name="twitter:description"
+          content="Create a new account on CodeWithRafay to start using our web development services and tools. Join our community today."
+        />
       </Head>
 
       <div className="">
@@ -93,7 +163,7 @@ const Page = () =>
             className="w-full bg-cover h-auto rounded-s-md hidden sm:hidden md:block lg:block xl:block"
             style={{
               backgroundImage:
-                'url("https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=667&amp;q=80")',
+                'url("https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80")',
             }}
           ></div>
           <div className="flex flex-col w-full p-8 rounded-md shadow-md">
@@ -103,71 +173,110 @@ const Page = () =>
                 height={60}
                 className="rounded-full text-center"
                 src={logo}
-                alt='img'
+                alt="CodeWithRafay Logo"
               />
             </div>
             <h2 className="text-center font-semibold text-2xl mt-1 dark:text-white">
               CodeWithRafay.com
             </h2>
-            <span className="text-center text-xl dark:text-slate-300">Create an Account!</span>
+            <span className="text-center text-xl dark:text-slate-300">
+              Create an Account!
+            </span>
 
-            <div className='mx-auto mt-2'>
-
-              {LoginButton()}
-            </div>
+            <div className="mx-auto mt-2">{LoginButton()}</div>
 
             <div className="flex justify-between items-center my-4">
-              <span className="w-1/5 lg:w-1/4 border-b"></span>
-              <h4 className="uppercase text-xs dark:text-gray-400">OR Sign up With Email</h4>
-              <span className="w-1/5 lg:w-1/4 border-b"></span>
+              <span className="w-1/5 lg:w-1/4 border-b dark:border-gray-500"></span>
+              <h4 className="uppercase text-xs dark:text-gray-400">
+                OR Sign up With Email
+              </h4>
+              <span className="w-1/5 lg:w-1/4 border-b dark:border-gray-500"></span>
             </div>
-            <form action="" method="POST" >
-              <label className="text-sm font-semibold dark:text-gray-400" htmlFor="email">
+            <form onSubmit={handleSubmit}>
+              <label
+                className="text-sm font-semibold dark:text-gray-400"
+                htmlFor="email"
+              >
                 Email Address
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
+                value={email}
                 onChange={handleEmailChange}
-                value={Email}
                 required
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none mt-2"
               />
 
-
-
-
-
-              <div className='mt-8'>
-                {(
-                  <ReCAPTCHA
-                    sitekey="6Ld2cGspAAAAABeeefHgheLz2fHX-nSWdtRKZSTx"
-                    onChange={handleRecaptchaChange}
+              <div>
+                <div className="flex justify-between mt-5">
+                  <span className="text-sm font-semibold dark:text-gray-400">Password</span>
+                </div>
+                <div className="relative w-full">
+                  <input
+                    type={passwordVisible ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                    className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none mt-2 ${!isPasswordValid ? 'border-red-500' : ''}`}
                   />
-                )}
+                  <span
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer passwordSvg"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                  >
+                    {passwordVisible ? showSvg : hideSvg}
+                  </span>
+                </div>
+                <div className="relative max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight: password ? '500px' : '0px' }}>
+                  <div className={`mt-2 ${isPasswordValid ? 'text-green-600' : 'text-red-600'} text-sm`}>
+                    {isPasswordValid
+                      ? 'Strong Password'
+                      : 'Password must be between 8 and 265 characters long and should contain at least one uppercase letter, one lowercase letter, one number, and one special character.'}
+                  </div>
+                </div>
               </div>
-              <button
-                type="submit"
-                onClick={handleSignup}
-                className="bg-gray-700 text-white mt-8 font-semibold py-2 px-4 w-full rounded hover:bg-gray-600 disabled:opacity-50 dark:bg-slate-600 dark:hover:bg-slate-900"
-              >
-                Create an Account
-              </button>
-              <div className="flex justify-between items-center my-4">
-                <span className="w-1/5 lg:w-1/4 border-b"></span>
-                <Link href="/login">
-                  <h4 className="uppercase text-xs dark:text-gray-400">or Login</h4>
-                </Link>
-                <span className="w-1/5 lg:w-1/4 border-b"></span>
+
+              <div className="flex items-center mt-4 mb-4 justify-between">
+                <label htmlFor="accept-terms" className="flex items-center text-sm text-gray-700 dark:text-gray-400">
+                  <input
+                    type="checkbox"
+                    name="accept-terms"
+                    id="accept-terms"
+                    className="mr-2 h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                    required
+                  />
+                  <span>
+                    I accept the{' '}
+                    <Link href="/terms" target='_codewithrafay' className="text-purple-600 hover:underline">
+                      terms and conditions
+                    </Link>
+                  </span>
+                </label>
+              </div>
+
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                onChange={handleRecaptchaChange}
+                className="mb-4"
+              />
+              <div>
+                <button type="submit" className="group relative flex justify-center border border-transparent text-base bg-purple-800  hover:bg-purple-700 transition-all text-white mt-4 font-bold py-2 px-4 w-full rounded "><span className="absolute left-0 inset-y-0 flex items-center pl-3"><svg className="h-5 w-5 text-purple-500 group-hover:text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"></path></svg></span>Create an Account</button>
               </div>
             </form>
+            <p className="mt-4 text-base text-center text-gray-700 dark:text-gray-400">
+              Already have an account?{' '}
+              <Link href="/login"
+                className="text-purple-600 font-medium">Log In
+              </Link>
+            </p>
           </div>
         </div>
       </div>
-
     </>
   );
 };
 
-export default Page;
+export default SignupPage;
