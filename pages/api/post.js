@@ -142,7 +142,7 @@ export async function HandleSignup(email, password)
 
         // Initiate verification process
         try {
-            await account.createVerification('http://localhost:3000/verify');
+            await account.createVerification('https://www.codewithrafay.com//verify');
             toast.success('Verification Email sent. Please check your inbox.');
         } catch (error) {
             toast.error('Something Went Wrong! Try again later', { autoClose: 2000 });
@@ -183,7 +183,7 @@ export async function HandleLogout()
 export async function HandleResetPassword(email)
 {
     try {
-        await account.createRecovery(email, 'http://localhost:3000/reset'); // Adjust the URL as needed
+        await account.createRecovery(email, 'https://www.codewithrafay.com/reset'); // Adjust the URL as needed
         toast.success('Instructions to reset password send to your email!');
       } catch (error) {  
           handleError(error);
