@@ -13,8 +13,8 @@ const LoginButton = () =>
           {   
           account.createOAuth2Session(
             'google',
-            `http://localhost:3000/?token=${uuidv4()}`,
-            'http://localhost:3000/')
+            `https://www.codewithrafay.com/?token=${uuidv4()}`,
+            'https://www.codewithrafay.com/')
         }}
         onError={() =>
         {
