@@ -31,6 +31,9 @@ const generateOtherURLs = () =>
     { url: 'https://www.codewithrafay.com/signup/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/privacy/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/terms/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/tutorials/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/courses/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/videos/', changefreq: 'monthly', priority: '1.0' },
   ];
 
   let urls = '';
