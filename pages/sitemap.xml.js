@@ -8,8 +8,8 @@ const generateBlogURLs = (blogs) =>
   {
     urls += `
       <url>
-        <loc>https://www.codewithrafay.com/blogpost/${blog.slug}</loc>
-        <changefreq>weekly</changefreq>
+        <loc>https://www.codewithrafay.com/blogpost/${blog.slug}/</loc>
+        <changefreq>monthly</changefreq>
         <priority>1.0</priority>
       </url>`;
   });
@@ -20,17 +20,17 @@ const generateBlogURLs = (blogs) =>
 const generateOtherURLs = () =>
 {
   const otherPages = [
-    { url: 'https://www.codewithrafay.com/', changefreq: 'daily', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/services', changefreq: 'weekly', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/work', changefreq: 'daily', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/contact', changefreq: 'monthly', priority: '0.8' },
-    { url: 'https://www.codewithrafay.com/blog', changefreq: 'daily', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/tools', changefreq: 'weekly', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/hire', changefreq: 'monthly', priority: '0.8' },
-    { url: 'https://www.codewithrafay.com/login', changefreq: 'monthly', priority: '0.8' },
-    { url: 'https://www.codewithrafay.com/signup', changefreq: 'monthly', priority: '0.8' },
-    { url: 'https://www.codewithrafay.com/privacy', changefreq: 'monthly', priority: '0.5' },
-    { url: 'https://www.codewithrafay.com/terms', changefreq: 'monthly', priority: '0.5' },
+    { url: 'https://www.codewithrafay.com/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/services/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/work/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/contact/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/blog/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/tools/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/hire/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/login/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/signup/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/privacy/', changefreq: 'monthly', priority: '1.0' },
+    { url: 'https://www.codewithrafay.com/terms/', changefreq: 'monthly', priority: '1.0' },
   ];
 
   let urls = '';

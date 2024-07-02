@@ -66,12 +66,14 @@ export default function Navbar()
             </div>
             <div className='flex justify-center items-center'>
               <nav className="md:ml-auto flex flex-wrap items-center text-base font-normal justify-end text-black text-pretty nav dark:text-white">
-                <Link href="/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Home</Link>
-                <Link href="/services/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Services</Link>
-                <Link href="/tools/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Tools</Link>
-                <Link href="/blog/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Blog</Link>
-                <Link href="/work/" className="nav-link cursor-pointer mr-5 hover:border-b-2 text-black dark:text-white  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Our Work</Link>
-                <Link href="/contact/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Contact</Link>
+                <Link href="/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Home</Link>
+                <Link href="/services/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Services</Link>
+                <Link href="/courses/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Courses</Link>
+                <Link href="/tutorials/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Tutorials</Link>
+                <Link href="/tools/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Tools</Link>
+                <Link href="/blog/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Blog</Link>
+                <Link href="/work/" className="nav-link cursor-pointer mr-4 hover:border-b-2 text-black dark:text-white  hover:border-purple-800 capitalize dark:hover:border-purple-600" >Our Work</Link>
+                <Link href="/contact/" className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize dark:hover:border-purple-600" >Contact</Link>
                 <Link href="/hire/" className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize" >Hire us</Link>
 
               </nav>
@@ -126,6 +128,8 @@ export default function Navbar()
         <div className={`absolute z-50 block mt-1 w-full invisible md:ml-auto flex-col gap-5 py-5 font-bold text-purple-500 bg-purple-100 flex-wrap items-center text-xl justify-end text-pretty shadow-md shadow-gray-200 menu-nav ${menuVisible ? 'flex' : "hidden"} dark:bg-gray-800 dark:shadow-black dark:shadow-sm`}>
           <Link href="/" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Home</Link>
           <Link href="/services" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Services</Link>
+          <Link href="/tutorials" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Tutorials</Link>
+          <Link href="/courses" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Courses</Link>
           <Link href="/tools" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Tools</Link>
           <Link href="/blog" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Blog</Link>
           <Link href="/work" className="cursor-pointer mr-5 text-purple-500 font-semibold" >Our Work</Link>

@@ -12,6 +12,7 @@ import '@/styles/globals.css'
 import 'prismjs/themes/prism.css';
 import Head from 'next/head';
 import { AuthProvider } from '@/components/AuthContext';
+import Script from "next/script";
 
 const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'],
@@ -62,8 +63,8 @@ export default function App({ Component, pageProps })
           <meta name="robots" content="index, follow" />
           <meta name="author" content="Abdul Rafay" />
           <meta name="keywords" content="codewithrafay, web development, web development agency, CMS, WordPress, e-commerce, web apps, website bug fixes, coding articles, web development blog, word counter, text editor" />
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4737568640496329"
-           crossorigin="anonymous"></script>
+          <Script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4737568640496329"
+            crossorigin="anonymous"></Script>
         </Head>
         <ThemeProvider>
           <div className={[poppins.className, "dark:bg-gray-900"].join(" ")}>

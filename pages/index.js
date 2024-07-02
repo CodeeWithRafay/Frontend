@@ -97,7 +97,7 @@ export default function Page()
             <div className="flex flex-wrap justify-center mx-6">
               <div className="p-4 md:w-1/3 flex justify-center">
                 <div className="h-full border-2 bg-white shadow-lg shadow-gray-300 text-md  dark:bg-slate-800 dark:shadow-black dark:shadow-sm dark:border-none border-t-2 rounded-lg overflow-hidden">
-                  <Image className="lg:h-48 md:h-36 w-full object-cover object-center" src={image3} alt="img codewithrafay"  />
+                  <Image height={100} width={100} layout='responsive' className="lg:h-48 md:h-36 w-full object-cover object-center" src={image3} alt="img codewithrafay" />
                   <div className="py-2">
                     <div className='px-6 md:my-11 lg:my-0 md:h-72 lg:h-64 lg:py-4 xl:h-52'>
                       <h3 className="uppercase font-medium text-xs tracking-widest dark:text-gray-400 mb-1">Cosmetics Shop</h3>
@@ -112,7 +112,7 @@ export default function Page()
               </div>
               <div className="p-4 md:w-1/3 flex justify-center">
                 <div className="h-full border-2 bg-white shadow-lg shadow-gray-300 text-md  dark:bg-slate-800 dark:shadow-black dark:shadow-sm dark:border-none border-t-2 rounded-lg overflow-hidden">
-                  <Image className="lg:h-48 md:h-36 w-full object-cover object-center" src={image2} alt="img codewithrafay"  />
+                  <Image height={100} width={100} layout='responsive' className="lg:h-48 md:h-36 w-full object-cover object-center" src={image2} alt="img codewithrafay"  />
                   <div className="py-2">
                     <div className='px-6 md:my-11 lg:my-0 md:h-72 lg:h-64 lg:py-4 xl:h-52'>
                       <h3 className="uppercase font-medium text-xs tracking-widest dark:text-gray-400 mb-1">Portfolio</h3>
@@ -129,7 +129,7 @@ export default function Page()
               </div>
               <div className="p-4 md:w-1/3 flex justify-center">
                 <div className="h-full border-2 bg-white shadow-lg shadow-gray-300 text-md  dark:bg-slate-800 dark:shadow-black dark:shadow-sm dark:border-none border-t-2 rounded-lg overflow-hidden">
-                  <Image className="lg:h-48 md:h-36 w-full object-cover object-center" src={image4} alt="img codewithrafay"  />
+                  <Image height={100} width={100} layout='responsive' className="lg:h-48 md:h-36 w-full object-cover object-center" src={image4} alt="img codewithrafay"  />
                   <div className="py-2">
                     <div className='px-6 md:my-11 lg:my-0 md:h-72 lg:h-64 lg:py-4 xl:h-52'>
                       <h3 className="uppercase font-medium text-xs tracking-widest dark:text-gray-400 mb-1">Music Listener</h3>
