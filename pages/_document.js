@@ -12,21 +12,15 @@ export default function Document() {
             crossOrigin="anonymous"
           ></script>
 
-          {/* Google Analytics */}
-          <script 
-          async 
-          src="https://www.googletagmanager.com/gtag/js?id=G-7JYM5C5858">
-          </script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-7JYM5C5858');
-              `,
-            }}
-          />
+         
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3SCPZBWQNR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3SCPZBWQNR');
+</script>
         </Head>
       <body>
         <Main />
