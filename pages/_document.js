@@ -13,14 +13,22 @@ export default function Document() {
           ></script>
 
          
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3SCPZBWQNR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
+ {/* Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-3SCPZBWQNR"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+               window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-3SCPZBWQNR');
-</script>
+              `,
+          }}
+        />
         </Head>
       <body>
         <Main />
