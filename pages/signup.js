@@ -140,10 +140,7 @@ const SignupPage = () =>
           content="Create a new account on CodeWithRafay to start using our web development services and tools. Join our community today."
         />
         <link rel="canonical" href="https://www.codewithrafay.com/signup" />
-        <meta
-          name="keywords"
-          content="codewithrafay,web development,portfolio,custom web development,CMS integration,e-commerce website development,web development projects"
-        />
+        <meta name="keywords" content="user signup, account registration, web development signup, CodeWithRafay signup"/>
         <meta property="og:title" content="Signup | CodeWithRafay" />
         <meta
           property="og:description"

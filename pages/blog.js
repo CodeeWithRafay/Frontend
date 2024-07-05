@@ -67,7 +67,8 @@ const Blog = () =>
       <Head>
         <title>Blog | CodeWithRafay</title>
         <meta name="description" content="Read the latest blog posts from CodeWithRafay on web development, coding, and the latest technologies. Stay updated with our informative articles." />
-        <link rel="canonical" href="https://codewithrafay.com/blog" />
+        <link rel="canonical" href="https://www.codewithrafay.com/blog" />
+        <meta name="keywords" content="web development blog, coding tutorials, backend development, Next.js, React, CodeWithRafay blog"></meta>
       </Head>
 
       {loading ? (

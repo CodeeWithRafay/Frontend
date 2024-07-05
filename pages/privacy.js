@@ -19,7 +19,8 @@ const PrivacyPolicy = () =>
             <Head>
                 <title>Privacy Policy | CodeWithRafay</title>
                 <meta name="description" content="Read CodeWithRafay's privacy policy to understand how we collect, use, and protect your personal information. Your privacy is important to us." />
-                <link rel="canonical" href="https://codewithrafay.com/privacy" />
+                <link rel="canonical" href="https://www.codewithrafay.com/privacy" />
+                <meta name="keywords" content="privacy policy, data protection, CodeWithRafay terms, legal information"></meta>
             </Head>
 
 

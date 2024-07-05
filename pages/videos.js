@@ -2,11 +2,14 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Fetching } from './api/fetching';
+import Spinner from '@/components/Spinner';
+import Head from 'next/head';
 
 
-const Courses = () =>
+const Videos = () =>
 {
   const [courses, setCourses] = useState([]);
+  const [loading, setloading] = useState(true)
 
 
   useEffect(() =>
@@ -19,17 +22,26 @@ const Courses = () =>
 
         const mappedDocuments = documents.documents.map((document) => document);
         setCourses(mappedDocuments);
+        setloading(false)
       } catch (error) {
-       
+        
       }
     };
-
+    
     fetchCourses();
   }, []);
 
   return (
     <>
-      {<div className='min-h-screen'><div className="pt-8 w-full container mx-auto flex justify-center items-center flex-col mb-8">
+     <Head>
+        <title>Courses | CodeWithRafay</title>
+        <meta name="description" content="Confused on which course to take? I have got you covered. Explore our best premium web development courses. It's free." />
+        <link rel="canonical" href="https://www.codewithrafay.com/work" />
+        <meta name="keywords" content="web development courses, premium courses, web development , CodeWithRafay courses"></meta>
+      </Head>
+      {
+        loading ? <Spinner/> : (
+        <div className='min-h-screen'><div className="pt-8 w-full container mx-auto flex justify-center items-center flex-col mb-8">
         <h2 className='capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-400'>Premium Courses</h2>
         <div className='courses-grid w-full grid grid-cols-3 justify-items-center items-center mt-8 gap-6' >
           {
@@ -63,16 +75,17 @@ const Courses = () =>
                   </div>
                 </div>
               </div>
+
             ))
           }
 
         </div>
       </div>
       </div>
-      }
+      )}
     </>
   )
 }
 
-export default Courses;
+export default Videos;
 

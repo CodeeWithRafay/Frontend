@@ -1,11 +1,9 @@
-import { Fetching } from '@/pages/api/fetching'; 
+import { Fetching } from '@/pages/api/fetching';
 
-const generateBlogURLs = (blogs) =>
-{
+const generateBlogURLs = (blogs) => {
   let urls = '';
 
-  blogs.forEach((blog) =>
-  {
+  blogs.forEach((blog) => {
     urls += `
       <url>
         <loc>https://www.codewithrafay.com/blogpost/${blog.slug}/</loc>
@@ -17,8 +15,22 @@ const generateBlogURLs = (blogs) =>
   return urls;
 };
 
-const generateOtherURLs = () =>
-{
+const generateVideoURLs = (videos) => {
+  let urls = '';
+
+  videos.forEach((video) => {
+    urls += `
+      <url>
+        <loc>https://www.codewithrafay.com/videos/${video.slug}/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>`;
+  });
+
+  return urls;
+};
+
+const generateOtherURLs = () => {
   const otherPages = [
     { url: 'https://www.codewithrafay.com/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/services/', changefreq: 'monthly', priority: '1.0' },
@@ -31,14 +43,11 @@ const generateOtherURLs = () =>
     { url: 'https://www.codewithrafay.com/signup/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/privacy/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/terms/', changefreq: 'monthly', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/tutorials/', changefreq: 'monthly', priority: '1.0' },
-    { url: 'https://www.codewithrafay.com/courses/', changefreq: 'monthly', priority: '1.0' },
     { url: 'https://www.codewithrafay.com/videos/', changefreq: 'monthly', priority: '1.0' },
   ];
 
   let urls = '';
-  otherPages.forEach((page) =>
-  {
+  otherPages.forEach((page) => {
     urls += `
       <url>
         <loc>${page.url}</loc>
@@ -50,19 +59,24 @@ const generateOtherURLs = () =>
   return urls;
 };
 
-export async function getServerSideProps({ res })
-{
+export async function getServerSideProps({ res }) {
   try {
-    const collectionId = '65e6a2957e9c71c0db5c';
-    const documents = await Fetching(collectionId);
-    const mappedDocuments = documents.documents.map((document) => ({ slug: document.slug }));
+    const blogCollectionId = '65e6a2957e9c71c0db5c'; // Assuming this is for blogs
+    const videoCollectionId = '6683705f0023464bd1dc'; // Replace with your actual video collection ID
+    const blogDocuments = await Fetching(blogCollectionId);
+    const videoDocuments = await Fetching(videoCollectionId);
 
-    const blogURLs = generateBlogURLs(mappedDocuments);
+    const mappedBlogDocuments = blogDocuments.documents.map((document) => ({ slug: document.slug }));
+    const mappedVideoDocuments = videoDocuments.documents.map((document) => ({ slug: document.VideoSlug }));
+
+    const blogURLs = generateBlogURLs(mappedBlogDocuments);
+    const videoURLs = generateVideoURLs(mappedVideoDocuments);
     const otherURLs = generateOtherURLs();
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${blogURLs}
+        ${videoURLs}
         ${otherURLs}
       </urlset>`;
 
@@ -79,7 +93,6 @@ export async function getServerSideProps({ res })
   };
 }
 
-export default function SitemapXML()
-{
+export default function SitemapXML() {
   return null;
 }

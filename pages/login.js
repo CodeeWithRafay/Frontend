@@ -129,10 +129,7 @@ const LoginPage = () =>
           content="Login to your CodeWithRafay account to access our web development services and tools. Secure and easy login process."
         />
         <link rel="canonical" href="https://www.codewithrafay.com/login" />
-        <meta
-          name="keywords"
-          content="CodeWithRafay, login, web development services, user login, secure login process"
-        />
+        <meta name="keywords" content="user login, account registration, web development login, CodeWithRafay login"/>
         <meta
           property="og:title"
           content="Login | CodeWithRafay"

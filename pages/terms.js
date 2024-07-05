@@ -21,7 +21,8 @@ const TermsAndConditions = () => {
       <Head>
         <title>Terms of Service | CodeWithRafay</title>
         <meta name="description" content="Read the terms of service for using CodeWithRafay's website and services. Understand your rights and obligations when using our platform." />
-        <link rel="canonical" href="https://codewithrafay.com/terms" />
+        <meta name="keywords" content="Codewithrafay, terms of service, codewithrafay terms"></meta>
+        <link rel="canonical" href="https://www.codewithrafay.com/terms" />
       </Head>
 
       <div className="bg-gray-100 md:px-40 md:py-14 px-4 py-10 dark:text-white dark:bg-slate-800">

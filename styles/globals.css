@@ -1,6 +1,5 @@
-
-@tailwind base; 
-@tailwind components; 
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
 input[type="search"]::-webkit-search-decoration,
@@ -10,13 +9,10 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
 
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
-
 }
 
 ::-webkit-scrollbar {
@@ -36,10 +32,14 @@ input[type="search"]::-webkit-search-results-decoration {
   background: #a3a2a2;
 }
 
+html{
+  scroll-behavior: smooth;
+}
 
 header,
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
 }
 
 .hidden {
@@ -57,7 +57,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
   z-index: 1000000000;
 }
 
@@ -67,9 +67,7 @@ body {
   justify-content: space-between;
 }
 
-
-
-@media only Screen and (max-width:1300px) {
+@media only Screen and (max-width: 1300px) {
   .courses-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2;
@@ -81,8 +79,7 @@ body {
   }
 }
 
-@media only Screen and (max-width:1100px) {
-
+@media only Screen and (max-width: 1100px) {
   .tutorials-grid-container {
     grid-template-columns: 1fr 1fr 1fr;
     margin-left: 1rem;
@@ -98,8 +95,6 @@ body {
     padding: 0;
   }
 
-
-
   .second-nav {
     display: none;
   }
@@ -107,7 +102,6 @@ body {
   .nav {
     display: none;
   }
-
 
   .buttons {
     margin-left: auto;
@@ -120,12 +114,9 @@ body {
   .menu-nav {
     visibility: visible !important;
   }
-
 }
 
-
-@media only Screen and (max-width:900px) {
-
+@media only Screen and (max-width: 1000px) {
   .tutorials-grid-container-item-inner-div {
     padding-top: 14px;
     padding-bottom: 14px;
@@ -142,6 +133,7 @@ body {
   .hero-grid {
     grid-template-columns: 1fr !important;
     text-align: center;
+  
   }
 
   .hero-buttons {
@@ -158,7 +150,7 @@ body {
   }
 }
 
-@media only Screen and (max-width:700px) {
+@media only Screen and (max-width: 700px) {
   .tutorials-grid-container {
     grid-template-columns: 1fr 1fr;
   }
@@ -175,11 +167,9 @@ body {
   .courses-grid {
     grid-template-columns: 1fr;
   }
-
-
 }
 
-@media only Screen and (max-width:600px) {
+@media only Screen and (max-width: 600px) {
   .tutorials-grid-container {
     grid-template-columns: 1fr;
   }
@@ -188,17 +178,13 @@ body {
     width: 70vw;
   }
 
-
   .dark-svg {
     width: 23px;
     display: inline;
   }
-
-
 }
 
-@media only Screen and (max-width:450px) {
-
+@media only Screen and (max-width: 450px) {
   .tutorials-grid-container-item {
     width: 70vw;
   }
@@ -215,13 +201,10 @@ body {
     padding-left: 0;
   }
 
-
-
   .hero {
     margin-top: 20px;
   }
 }
-
 
 .dark .card {
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -231,8 +214,8 @@ body {
 }
 
 .card {
--webkit-backdrop-filter: blur(16px) saturate(200%);
-background-color: rgba(255, 255, 255, 0.57);
-border-radius: 12px;
-border: 2px solid rgba(209, 213, 219, 0.3);
+  -webkit-backdrop-filter: blur(16px) saturate(200%);
+  background-color: rgba(255, 255, 255, 0.57);
+  border-radius: 12px;
+  border: 2px solid rgba(209, 213, 219, 0.3);
 }

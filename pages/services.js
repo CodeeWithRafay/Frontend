@@ -9,6 +9,7 @@ const Services = () =>
         <title>Services | CodeWithRafay</title>
         <meta name="description" content="Explore the services offered by CodeWithRafay, including web app development, CMS, WordPress, e-commerce stores, and website bug fixes. Let us help you build your online presence." />
         <link rel="canonical" href="https://codewithrafay.com/services" />
+        <meta name="keywords" content="web app development, UI/UX design, CMS development, API integration, CodeWithRafay services"></meta>
       </Head>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-8 pb-5 mx-auto">

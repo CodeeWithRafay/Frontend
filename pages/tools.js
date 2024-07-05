@@ -11,11 +11,12 @@ const Tools = () =>
       <Head>
         <title>Tools | CodeWithRafay</title>
         <meta name="description" content="Explore CodeWithRafay's tools page for useful utilities like word counters, text editors, and more. Enhance your productivity with our handy web development tools." />
-        <link rel="canonical" href="https://codewithrafay.com/tools" />
+        <link rel="canonical" href="https://www.codewithrafay.com/tools" />
+        <meta name="keywords" content="web development tools, coding resources, CodeWithRafay tools, web dev tools, word counter, text editor"></meta>
       </Head>
       <section className='min-h-screen'>
         <div className="pt-3 w-full container mx-auto flex justify-center items-center flex-col mb-16 my-4">
-          <h2 className='capitalize text-3xl font-semibold text-center text-purple-700 dark:text-purple-500
+          <h2 className='capitalize text-3xl font-semibold text-center text-purple-700 dark:text-purple-400
         00'>Our Tools</h2>
           <section className="text-gray-600 body-font overflow-hidden">
             <div className="container px-5 py-10 mx-auto">

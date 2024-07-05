@@ -42,8 +42,6 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
       (comment) => comment.blogSlug === slug
     );
     setBlogPostComments(filteringComments);
-
-    document.title = filteringBlogs[0].title;
   }, [blogs, slug, comments]);
 
   useEffect(() => {
@@ -131,10 +129,15 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
       }
 
       try {
+        // Call your API function to post the reply
         await HandleReplyPostComment(replyCommentText, id, Username);
 
+        // Update repliedComments state to include the replied comment ID
+        setRepliedComments([...repliedComments, id]);
+
+        // Update BlogPostComments state to immediately show the reply
         setBlogPostComments((prevComments) => {
-          const updatedComments = prevComments.map((comment) => {
+          return prevComments.map((comment) => {
             if (comment.$id === id) {
               const updatedReplies = comment.replies
                 ? [...comment.replies]
@@ -153,13 +156,10 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
             }
             return comment;
           });
-          return updatedComments;
         });
 
-        setReplyCommentText("");
-        setReplyFormVisible(null);
-
-        setRepliedComments([...repliedComments, id]);
+        setReplyCommentText(""); // Clear the reply text input
+        setReplyFormVisible(null); // Hide the reply form
 
         toast("Reply Added", { type: "success", autoClose: 3000 });
       } catch (error) {
@@ -269,6 +269,8 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
           }
 
         }
+
+
         `}</style>
 
       <article className="min-h-screen bg-gray-100 p-2 dark:bg-gray-900">
@@ -372,132 +374,136 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
           <h3 className="font-semibold text-2xl dark:text-gray-200">
             Comments ({BlogPostComments.length})
           </h3>
-          {}
+
+          <hr className="my-4 dark:border-gray-500" />
+
           {BlogPostComments.length ? (
             BlogPostComments.map((comment) => (
-              <div
-                key={comment.$id}
-                className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700"
-              >
-                <div className="flex items-center mb-2">
+              <div key={comment.$id} className="flex">
+                <div className="object-contain w-10 flex flex-col items-center mt-3 mx-3">
                   <Image
                     width={30}
                     className="rounded-full"
                     src={user}
+                    layout="responsive"
                     alt="User Image"
                   />
-                  <span className="ml-2 font-semibold dark:text-white">
-                    {comment.username}
-                  </span>
-                  <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
-                    {new Date(comment.Date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
                 </div>
-                <p className="text-gray-800 dark:text-gray-300">
-                  {comment.commentText}
-                </p>
+                <div className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4">
+                  <div className="flex items-center mb-2">
+                    <span className="font-semibold dark:text-white">
+                      {comment.username}
+                    </span>
+                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
+                      {new Date(comment.Date).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <p className="text-gray-800 dark:text-gray-300">
+                    {comment.commentText}
+                  </p>
 
-                <div className="mt-2">
-                  {!repliedComments.includes(comment.$id) ? (
-                    <button
-                      className="bg-purple-700 dark:bg-purple-600 text-white border-0 px-2 focus:outline-none rounded-md text-xs uppercase font-semibold tracking-wide 
-             disabled:bg-gray-200 disabled:text-gray-400 py-2 box-border hover:bg-purple-800 dark:hover:bg-purple-600"
-                      onClick={() => showReplyFormHandler(comment.$id)}
-                    >
-                      Reply
-                    </button>
-                  ) : (
-                    <p></p>
-                  )}
-
-                  {replyFormVisible === comment.$id && (
-                    <div className="flex items-center mt-2">
-                      <input
-                        type="text"
-                        id="replycomment"
-                        name="replycomment"
-                        onChange={(e) => setReplyCommentText(e.target.value)}
-                        value={replyCommentText}
-                        autoFocus
-                        placeholder="Type reply"
-                        className="dark:bg-gray-700 py-0.5 dark:text-white px-2 border rounded-sm text-md flex-grow mr-2 focus:outline-none border-gray-300 focus:border-purple-600 max-w-52"
-                        required
-                      />
-                      <div className="flex gap-2 ">
-                        <button
-                          className="bg-purple-600 hover:bg-purple-800 dark:bg-purple-500 text-white px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wid dark:hover:bg-purple-600 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:bg-gray-200 dark:disabled:text-gray-400"
-                          onClick={() => PostReplyComment(comment.$id)}
-                        >
-                          Post
-                        </button>
-                        <button
-                          className="px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wide dark:text-white"
-                          onClick={cancelReplyHandler}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {((comment.replies && comment.replies.length > 0) ||
-                  (fetchedReplyComments &&
-                    fetchedReplyComments.length > 0)) && (
                   <div className="mt-2">
-                    <button
-                      className="my-2 uppercase tracking-wide text-gray-400 font-bold text-xs cursor-pointer"
-                      onClick={() => setShowReplies((prev) => !prev)}
-                    >
-                      {ShowReplies ? "Hide Replies" : "Show Replies"}
-                    </button>
-                    {ShowReplies && (
-                      <div className="mt-2">
-                        {(comment.replies || [])
-                          .concat(
-                            fetchedReplyComments.filter(
-                              (reply) => reply.commentId === comment.$id
-                            )
-                          )
-                          .map((reply, index) => (
-                            <div
-                              key={index}
-                              className="bg-gray-200 rounded-lg p-2 my-2 dark:bg-gray-600"
-                            >
-                              <div className="flex items-center mb-2">
-                                <Image
-                                  width={25}
-                                  className="rounded-full"
-                                  src={user}
-                                  alt="User Image"
-                                />
-                                <span className="ml-2 font-semibold dark:text-white">
-                                  {reply.username}
-                                </span>
-                                <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
-                                  {new Date(reply.date).toLocaleDateString(
-                                    "en-US",
-                                    {
-                                      month: "long",
-                                      day: "numeric",
-                                      year: "numeric",
-                                    }
-                                  )}
-                                </span>
-                              </div>
-                              <p className="text-gray-800 dark:text-gray-200">
-                                {reply.repliesText}
-                              </p>
-                            </div>
-                          ))}
+                    {!repliedComments.includes(comment.$id) ? (
+                      <button
+                        className="bg-purple-700 dark:bg-purple-600 text-white border-0 px-2 focus:outline-none rounded-md text-xs uppercase font-semibold tracking-wide 
+             disabled:bg-gray-200 disabled:text-gray-400 py-2 box-border hover:bg-purple-800 dark:hover:bg-purple-600"
+                        onClick={() => showReplyFormHandler(comment.$id)}
+                      >
+                        Reply
+                      </button>
+                    ) : (
+                      <p></p>
+                    )}
+
+                    {replyFormVisible === comment.$id && (
+                      <div className="flex items-center mt-2">
+                        <input
+                          type="text"
+                          id="replycomment"
+                          name="replycomment"
+                          onChange={(e) => setReplyCommentText(e.target.value)}
+                          value={replyCommentText}
+                          autoFocus
+                          placeholder="Type reply"
+                          className="dark:bg-gray-700 py-0.5 dark:text-white px-2 border rounded-sm text-md flex-grow mr-2 focus:outline-none border-gray-300 focus:border-purple-600 max-w-52"
+                          required
+                        />
+                        <div className="flex gap-2 ">
+                          <button
+                            className="bg-purple-600 hover:bg-purple-800 dark:bg-purple-500 text-white px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wid dark:hover:bg-purple-600 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:bg-gray-200 dark:disabled:text-gray-400"
+                            onClick={() => PostReplyComment(comment.$id)}
+                          >
+                            Post
+                          </button>
+                          <button
+                            className="px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wide dark:text-white"
+                            onClick={cancelReplyHandler}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
-                )}
+
+                  {((comment.replies && comment.replies.length > 0) ||
+                    (fetchedReplyComments &&
+                      fetchedReplyComments.length > 0)) && (
+                    <div className="mt-2">
+                      <button
+                        className="my-2 uppercase tracking-wide text-gray-400 font-bold text-xs cursor-pointer"
+                        onClick={() => setShowReplies((prev) => !prev)}
+                      >
+                        {ShowReplies ? "Hide Replies" : "Show Replies"}
+                      </button>
+                      {ShowReplies && (
+                        <div className="mt-2">
+                          {(comment.replies || [])
+                            .concat(
+                              fetchedReplyComments.filter(
+                                (reply) => reply.commentId === comment.$id
+                              )
+                            )
+                            .map((reply, index) => (
+                              <div
+                                key={index}
+                                className="bg-gray-200 rounded-lg p-2 my-2 dark:bg-gray-600"
+                              >
+                                <div className="flex items-center mb-2">
+                                  <Image
+                                    width={25}
+                                    className="rounded-full"
+                                    src={user}
+                                    alt="User Image"
+                                  />
+                                  <span className="ml-2 font-semibold dark:text-white">
+                                    {reply.username}
+                                  </span>
+                                  <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
+                                    {new Date(reply.date).toLocaleDateString(
+                                      "en-US",
+                                      {
+                                        month: "long",
+                                        day: "numeric",
+                                        year: "numeric",
+                                      }
+                                    )}
+                                  </span>
+                                </div>
+                                <p className="text-gray-800 dark:text-gray-200">
+                                  {reply.repliesText}
+                                </p>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             ))
           ) : (

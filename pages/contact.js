@@ -11,7 +11,8 @@ const Page = () =>
       <Head>
         <title>Contact Us | CodeWithRafay</title>
         <meta name="description" content="Get in touch with CodeWithRafay for any inquiries or to discuss your project needs. We are here to help you with all your web development requirements." />
-        <link rel="canonical" href="https://codewithrafay.com/contact"/>
+        <link rel="canonical" href="https://www.codewithrafay.com/contact"/>
+        <meta name="keywords" content="contact CodeWithRafay, web development services, request a quote, get in touch"></meta>
       </Head>
 
       <div className='container mx-auto w-full md:mt-24 md:px-32 min-h-screen'>

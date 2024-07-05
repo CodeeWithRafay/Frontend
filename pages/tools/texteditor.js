@@ -11,9 +11,10 @@ const TextEditor = () =>
   const [charCount, setCharCount] = useState(0);
 
   const fontList = [
-    "Arial", "Verdana", "Times New Roman", "Garamond",
-    "Georgia", "Courier New", "cursive"
+    "Roboto", "Open Sans", "Lato", "Montserrat", "Poppins", 
+    "Raleway", "Merriweather", "Noto Sans", "Oswald", "Ubuntu"
   ];
+  
 
   const initializeFontOptions = () =>
   {
