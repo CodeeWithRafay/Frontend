@@ -3,7 +3,7 @@ import logo from "@/image/logo.png"
 import Image from 'next/image';
 import Head from 'next/head';
 
-const Page = () =>
+const Contact = () =>
 {
 
   return (
@@ -23,7 +23,7 @@ const Page = () =>
             <a href="https://www.linkedin.com/in/abdul-rafay-97285b274/" target="_blank" rel="noopener noreferrer" aria-label="Linkedin">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 dark:text-white dark:hover:text-purple-600 hover:text-purple-600 transition-colors"
+                className="h-7 w-7 dark:text-white hover:text-purple-500 dark:hover:text-purple-500 transition-all"
                 fill="currentColor"
                 viewBox="0 0 24 24">
                 <path
@@ -32,7 +32,7 @@ const Page = () =>
             </a>
             <a href="https://www.facebook.com/codeewithrafay/" target="_blank" rel="noopener noreferrer"  aria-label="facebook"><svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7 dark:text-white dark:hover:text-purple-600 hover:text-purple-600 transition-colors"
+              className="h-7 w-7 dark:text-white hover:text-purple-500 dark:hover:text-purple-500 transition-all"
               fill="currentColor"
               viewBox="0 0 24 24">
               <path
@@ -40,7 +40,7 @@ const Page = () =>
             </svg></a>
             <a href="https://www.instagram.com/officialcodewithrafay/" target="_blank" rel="noopener noreferrer" aria-label="instagram"><svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7 dark:text-white dark:hover:text-purple-600 hover:text-purple-600 transition-colors"
+              className="h-7 w-7 dark:text-white hover:text-purple-500 dark:hover:text-purple-500 transition-all"
               fill="currentColor"
               viewBox="0 0 24 24">
               <path
@@ -48,7 +48,7 @@ const Page = () =>
             </svg></a>
             <a href="https://twitter.com/codewithraafay" target="_blank" rel="noopener noreferrer" aria-label="twitter"><svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7 dark:text-white dark:hover:text-purple-600 hover:text-purple-600 transition-colors"
+              className="h-7 w-7 dark:text-white hover:text-purple-500 dark:hover:text-purple-500 transition-all"
               fill="currentColor"
               viewBox="0 0 24 24">
               <path
@@ -62,4 +62,4 @@ const Page = () =>
   )
 }
 
-export default Page
+export default Contact;

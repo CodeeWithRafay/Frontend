@@ -369,7 +369,7 @@ export default function Videos({
             >
               {/* comments section start */}
               <section>
-                <div className="container bg-white px-4 mt-5 border dark:border-gray-500  rounded-lg text-center shadow-lg -section md:w-2/5 dark:bg-slate-700  ">
+                <div className="container bg-white px-4 mt-5 border dark:border-gray-500  rounded-lg text-center shadow-lg -section  md:w-2/5 dark:bg-slate-700  ">
                   <form
                     onSubmit={PostComment}
                     className="w-full bg-white lg:mx-0 mb-1 rounded-lg sm:px-2 sm:mx-2 px-4 pt-2 dark:bg-slate-700"
@@ -426,7 +426,7 @@ export default function Videos({
                </div>
               <div
               
-                className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4"
+                className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4 w-full"
               >
                 <div className="flex items-center mb-2">
                   <span className="font-semibold dark:text-white">

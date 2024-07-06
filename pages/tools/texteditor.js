@@ -14,14 +14,19 @@ const TextEditor = () =>
     "Roboto", "Open Sans", "Lato", "Montserrat", "Poppins", 
     "Raleway", "Merriweather", "Noto Sans", "Oswald", "Ubuntu"
   ];
-  
 
-  const initializeFontOptions = () =>
-  {
+  useEffect(() => {
+    // Load Google Fonts dynamically
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"; // Replace with your font URLs
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
+
+  const initializeFontOptions = () => {
     // Create font name options
     if (fontNameRef.current && fontNameRef.current.options.length === 0) {
-      fontList.forEach(value =>
-      {
+      fontList.forEach(value => {
         const option = document.createElement("option");
         option.value = value;
         option.innerHTML = value;
@@ -41,15 +46,13 @@ const TextEditor = () =>
     }
   };
 
-  const handleFormat = (format, value = null) =>
-  {
+  const handleFormat = (format, value = null) => {
     textInputRef.current.focus();
     document.execCommand('styleWithCSS', false, true);
     document.execCommand(format, false, value);
     updateCounts();
     saveContent();
   };
-
   const handleUndoRedo = (action) =>
   {
     textInputRef.current.focus();
@@ -189,12 +192,12 @@ const TextEditor = () =>
       
       `}</style>
       <div className="container mx-auto my-10 bg-white dark:bg-gray-800  p-8 rounded-lg shadow-lg min-h-screen">
-        <h1 className="text-2xl font-bold mb-4 p-2 rounded pl-8 bg-cyan-200 dark:text-white dark:bg-cyan-700">{wordCount} Words {charCount} Characters</h1>
+        <h1 className="text-2xl font-bold mb-4 p-2 rounded pl-8 bg-cyan-200 dark:text-white dark:bg-cyan-800">{wordCount} Words {charCount} Characters</h1>
         <div className="options flex flex-wrap items-center gap-4 mb-4">
           <select id="fontName" ref={fontNameRef} className="adv-option-button" onChange={(e) => handleFormat('fontName', e.target.value)}></select>
 
           <select id="fontSize" ref={fontSizeRef} className="adv-option-button" onChange={(e) => handleFormat('fontSize', e.target.value)}></select>
-          <select id="formatBlock" className="adv-option-button outline-none focus" onChange={(e) => handleFormat('formatBlock', e.target.value)}>
+          <select id="formatBlock" className="adv-option-button outline-none" onChange={(e) => handleFormat('formatBlock', e.target.value)}>
             <option value="H1" >H1</option>
             <option value="H2">H2</option>
             <option value="H3">H3</option>
@@ -276,16 +279,26 @@ const TextEditor = () =>
         {/* Text editor features section */}
         <hr className="border-gray-200 dark:border-gray-500 mt-10"></hr>
         <div className="mt-5 dark:text-white">
-          <h3 className=" font-semibold mb-2 sm:text-xl md:text-3xl">Text Editor Features:</h3>
+          <h3 className=" font-semibold mb-2 sm:text-xl md:text-3xl text-purple-700 dark:text-purple-500">Text Editor Features:</h3>
           <ul className="list-disc pl-4 md:text-lg sm:text-sm">
-            <li>Bold, Italic, Underline, Strikethrough</li>
-            <li>Superscript, Subscript</li>
+          <li><strong className="font-bold">Bold</strong>, <em className="italic">Italic</em>, <u className="underline">Underline</u>, <del className="line-through">Strikethrough</del></li>
+            <li>Superscript<sup className="text-xs">®</sup>, Subscript<sub className="text-xs">2</sub></li>
             <li>Ordered and Unordered Lists</li>
             <li>Undo and Redo</li>
             <li>Insert Image and Create Link</li>
             <li>Font Color and Background Color</li>
             <li>Text Alignment and Indentation</li>
             <li>Font Name and Font Size</li>
+            <li>Save Content: Allows users to save their current text content locally or to a server, ensuring they can retrieve and continue editing later.</li>
+            <li>Auto Save: Automatically saves the content at regular intervals to prevent loss of unsaved changes.</li>
+            <li>Syntax Highlighting: Provides color-coded syntax highlighting for various programming or markup languages to improve readability.</li>
+            <li>Find and Replace: Enables users to search for specific text and replace it with another across the document.</li>
+            <li>Word Count: Displays the current word count of the document.</li>
+            <li>Spell Check: Checks for spelling errors and suggests corrections.</li>
+            <li>Collaboration: Supports real-time collaboration, allowing multiple users to edit the same document simultaneously.</li>
+            <li>Responsive Design: Ensures the editor adapts well to different screen sizes and devices for a seamless editing experience.</li>
+            <li>Customizable Themes: Allows users to choose different themes or customize the editor's appearance to suit their preferences.</li>
+            <li>Keyboard Shortcuts: Provides shortcuts for various functions to improve efficiency and user experience.</li>
           </ul>
         </div>
       </div>

@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }) {
           }
         >
           <Head>
-            <title>Get Web Development Services | CodeWithRafay</title>
+            <title>Get web development services | CodeWithRafay</title>
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1, minimum-scale=1"

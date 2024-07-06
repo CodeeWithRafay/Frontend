@@ -60,7 +60,7 @@ export default function Page() {
         }
       `}</style>
       <Head>
-        <title>Get Web Development Services | CodeWithRafay</title>
+        <title>Get web development services | CodeWithRafay</title>
         <meta
           name="description"
           content="Welcome to CodeWithRafay, your go-to web development agency. We create web apps, CMS, e-commerce stores, and more. Discover our services and read our latest blog posts."
@@ -71,7 +71,7 @@ export default function Page() {
         <div className="flex flex-col hero pl-0 md:pl-5">
           <h1 className="text-4xl font-semibold px-5 md:px-0 lg:px-0 dark:text-white">
             Welcome to
-            <span className="capitalize text-purple-700 dark:text-purple-600 transition-all">
+            <span className="capitalize text-purple-700 dark:text-purple-500 transition-all">
               {" "}
               <ReactTyped
                 strings={["CodeWithRafay"]}
@@ -118,7 +118,7 @@ export default function Page() {
             <Link href="/hire">
               <button
                 type="button"
-                className="inline-block rounded bg-gray-900 px-4 py-4 pb-2 pt-2.5 text-xs leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-gray-700 font-semibold  dark:bg-white dark:hover:bg-gray-300 dark:text-black"
+                className="inline-block rounded bg-gray-900 px-4 py-4 pb-2 pt-2.5 text-xs leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition-all hover:bg-gray-700 font-semibold  dark:bg-white dark:hover:bg-gray-300 dark:text-black"
               >
                 GET A QUOTE
               </button>
@@ -126,7 +126,7 @@ export default function Page() {
             <Link href="/blog">
               <button
                 type="button"
-                className="inline-block uppercase rounded bg-gray-300 px-6 pb-2 pt-2.5 text-xs  leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out mx-3 hover:bg-gray-400 font-semibold"
+                className="inline-block uppercase rounded px-6 pb-2 pt-2.5 text-xs  leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition-all mx-3 hover:bg-slate-300 bg-gray-300 font-semibold"
               >
                 Explore Blog
               </button>
@@ -182,7 +182,7 @@ export default function Page() {
                 <a href={`https://codewithrafay-heroportfolio.netlify.app/`} target="_blank">
                   <button
                     type="button"
-                    className="text-white bg-purple-700 focus:outline-none focus:ring-purple-300 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
+                    className="text-white bg-purple-700 transition-all hover:bg-purple-800 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
                   >
                     Live Preview
                   </button>
@@ -222,7 +222,7 @@ export default function Page() {
                 <a href={'https://music-app-projects.netlify.app/'}  target="_blank">
                   <button
                     type="button"
-                    className="text-white bg-purple-700 focus:outline-none focus:ring-purple-300 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
+                    className="text-white  bg-purple-700 transition-all hover:bg-purple-800 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
                   >
                     Live Preview
                   </button>
@@ -259,7 +259,7 @@ export default function Page() {
                 <a href={'https://cosmetics-shop.netlify.app/'} target="_blank">
                   <button
                     type="button"
-                    className="text-white bg-purple-700 focus:outline-none focus:ring-purple-300 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
+                    className="text-white  bg-purple-700 transition-all hover:bg-purple-800 font-semibold rounded-full text-sm px-4 py-2.5 text-center mb-2"
                   >
                     Live Preview
                   </button>
@@ -288,18 +288,15 @@ export default function Page() {
                     <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
                   </svg>
                   <p className="leading-relaxed mb-6 dark:text-gray-300">
-                    Will is one of the most knowledgeable and competent people I
-                    have ever met in the Web Development field. He always
-                    delivers the highest quality results and client satisfaction
-                    is his major goal!
+                  I needed a website for my business, and they developed it using the latest technologies. The user interaction and features are fantastic. I&apos;m really impressed by their expertise and hard work. I will definitely consider them for future projects. Highly recommended for everyone!
                   </p>
                   <div className="inline-flex items-center">
                     <span className="flex-grow flex flex-col pl-4">
                       <span className="title-font font-medium text-gray-900 dark:text-white">
-                        Mark Johnson
+                      Jane Smith
                       </span>
                       <span className="text-gray-500 text-sm dark:text-gray-400">
-                        UI/UX Developer
+                      Business Owner
                       </span>
                     </span>
                   </div>
@@ -316,18 +313,15 @@ export default function Page() {
                     <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
                   </svg>
                   <p className="leading-relaxed mb-6 dark:text-gray-300">
-                    It is a pleasure working with Will. He is extremely
-                    knowledgeable, and positive. His approach to challenges and
-                    opportunities is innovative. He is highly productive and
-                    consistently delivers as promised.
+                  Working with them was amazing. They created an advanced e-commerce platform using the latest technology, making sure it&apso;s easy to use. I appreciate their focus on quality and customer satisfaction in everything they do. I am greatly impressed by their quality work.
                   </p>
                   <div className="inline-flex items-center">
                     <span className="flex-grow flex flex-col pl-4">
                       <span className="title-font font-medium text-gray-900 dark:text-white">
-                        Leonson Kavi
+                        Umair Zafar
                       </span>
                       <span className="text-gray-500 text-sm dark:text-gray-400">
-                        Web Developer
+                      E-commerce Entrepreneur
                       </span>
                     </span>
                   </div>

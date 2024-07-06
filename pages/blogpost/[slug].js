@@ -389,7 +389,7 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
                     alt="User Image"
                   />
                 </div>
-                <div className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4">
+                <div className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4 w-full">
                   <div className="flex items-center mb-2">
                     <span className="font-semibold dark:text-white">
                       {comment.username}
