@@ -7,14 +7,13 @@ import { HandleCommentPost, HandleReplyPostComment } from "@/pages/api/post";
 import logo from "@/image/logo.png";
 import user from "@/image/user.png";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css";
 import "prismjs/components/prism-jsx";
 import "prismjs/themes/prism-okaidia.css";
 import Head from "next/head";
 import AuthContext from "@/components/AuthContext";
 import DOMPurify from "dompurify";
 
-export default function BlogPostPage({ blogs, comments, replyComments }) {
+export default function BlogPostPage({ blogs}) {
   const router = useRouter();
   const { session, setSession } = useContext(AuthContext);
   const { slug } = router.query;
@@ -29,7 +28,33 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
   const [repliedComments, setRepliedComments] = useState([]); // Track replied comments
 
   const [fetchedReplyComments, setFetchedReplyComments] =
-    useState(replyComments); // Store fetched reply comments
+    useState(); // Store fetched reply comments
+
+    useEffect(() => {
+      const fetchComments = async () => {
+        try {
+          const collectionIdComments = "65ee7a19e402a6b0ff30";
+          const commentResponse = await Fetching(collectionIdComments);
+          const comments = commentResponse.documents.map((document) => document);
+          const filteringComments = comments.filter(
+            (comment) => comment.blogSlug === slug
+          );
+          
+          setBlogPostComments(filteringComments);
+  
+          const collectionIdReplies = "65f158d4f40d89610edb";
+          const replyCommentResponse = await Fetching(collectionIdReplies);
+          const replyComments = replyCommentResponse.documents.map((document) => document);
+          setRepliedComments(replyComments);
+          setFetchedReplyComments(replyComments)
+          
+        } catch (error) {
+          toast.error("Failed to load comments. Please try again later.");
+        }
+      };
+  
+      fetchComments();
+    }, [slug]);
 
   useEffect(() => {
     const filteringBlogs = blogs.filter((blog) => blog.slug === slug);
@@ -38,15 +63,12 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
     } else {
       setBlogPost(null);
     }
-    const filteringComments = comments.filter(
-      (comment) => comment.blogSlug === slug
-    );
-    setBlogPostComments(filteringComments);
-  }, [blogs, slug, comments]);
+
+  }, [blogs, slug]);
 
   useEffect(() => {
-    setFetchedReplyComments(replyComments);
-  }, [replyComments]);
+    setFetchedReplyComments(repliedComments);
+  }, [repliedComments]);
 
   const replaceCodeBlocks = (content) => {
     const parser = new DOMParser();
@@ -517,32 +539,35 @@ export default function BlogPostPage({ blogs, comments, replyComments }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  // Fetch data using slug
+export async function getStaticPaths() {
+  const collectionId = "65e6a2957e9c71c0db5c"; 
+  const response = await Fetching(collectionId);
+  const paths = response.documents.map((blog) => ({
+    params: { slug: blog.slug }, 
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps(context) {
   const collectionId = "65e6a2957e9c71c0db5c";
-  const commentCollectionId = "65ee7a19e402a6b0ff30";
-  const replyCommentCollectionId = "65f158d4f40d89610edb";
 
   let blogs = [];
-  let comments = [];
-  let replyComments = [];
 
   try {
     const blogDocuments = await Fetching(collectionId);
     blogs = blogDocuments.documents;
 
-    const commentDocument = await Fetching(commentCollectionId);
-    comments = commentDocument.documents;
-
-    const replycommentDocument = await Fetching(replyCommentCollectionId);
-    replyComments = replycommentDocument.documents;
-  } catch (error) {}
+  } catch (error) {
+  }
 
   return {
     props: {
       blogs,
-      comments,
-      replyComments,
     },
+    revalidate: 10800, 
   };
 }

@@ -297,7 +297,7 @@ const TextEditor = () =>
             <li>Spell Check: Checks for spelling errors and suggests corrections.</li>
             <li>Collaboration: Supports real-time collaboration, allowing multiple users to edit the same document simultaneously.</li>
             <li>Responsive Design: Ensures the editor adapts well to different screen sizes and devices for a seamless editing experience.</li>
-            <li>Customizable Themes: Allows users to choose different themes or customize the editor's appearance to suit their preferences.</li>
+            <li>Customizable Themes: Allows users to choose different themes or customize the editor&apos;s appearance to suit their preferences.</li>
             <li>Keyboard Shortcuts: Provides shortcuts for various functions to improve efficiency and user experience.</li>
           </ul>
         </div>

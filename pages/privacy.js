@@ -25,7 +25,7 @@ const PrivacyPolicy = () =>
 
 
             <div className=" bg-gray-100 md:px-40 md:py-14 px-4 py-10 rounded-lg shadow-lg dark:bg-slate-800 dark:text-white">
-                <h1 className="text-3xl font-bold mb-4">Privacy Policy for CodeWithRafay</h1>
+                <h1 className="text-3xl font-bold mb-4 text-purple-700 dark:text-purple-400">Privacy Policy for CodeWithRafay</h1>
 
                 <p className="text-lg mb-4">Last updated: July 1, 2024</p>
 

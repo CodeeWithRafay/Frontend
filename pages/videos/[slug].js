@@ -1,34 +1,99 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import user from "@/image/user.png";
 import { HandleCommentPost, HandleReplyPostComment } from "@/pages/api/post";
 import { toast } from "react-toastify";
 import AuthContext from "@/components/AuthContext";
-import { useRouter } from "next/router";
 import { Fetching } from "@/pages/api/fetching";
+import Head from "next/head";
+import Prism from 'prismjs';
+import 'prismjs/components/prism-jsx';
 
-export default function Videos({
-  CourseVideos,
-  comments,
-  replyComments,
-  slug,
-}) {
-  const router = useRouter();
+
+export default function Videos({ CourseVideos, slug }) {
   const { session } = useContext(AuthContext);
-
   const [active, setActive] = useState(1);
   const [BlogPostComments, setBlogPostComments] = useState([]);
   const [CommentText, setCommentText] = useState("");
   const [replyCommentText, setReplyCommentText] = useState("");
   const [ShowReplies, setShowReplies] = useState(false);
   const [replyFormVisible, setReplyFormVisible] = useState(null);
+  const [repliedComments, setRepliedComments] = useState([]);
 
-  const [repliedComments, setRepliedComments] = useState([]); // Track replied comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const collectionIdComments = "65ee7a19e402a6b0ff30";
+        const commentResponse = await Fetching(collectionIdComments);
+        const comments = commentResponse.documents.map((document) => document);
+        setBlogPostComments(comments);
 
-  const [fetchedReplyComments, setFetchedReplyComments] =
-    useState(replyComments); // Store fetched reply comments
+        const collectionIdReplies = "65f158d4f40d89610edb";
+        const replyCommentResponse = await Fetching(collectionIdReplies);
+        const replyComments = replyCommentResponse.documents.map(
+          (document) => document
+        );
+        setRepliedComments(replyComments);
+      } catch (error) {
+        toast.error("Failed to load comments. Please try again later.");
+      }
+    };
 
+    fetchComments();
+  }, [slug]);
+
+  const replaceCodeBlocks = (content) => {
+    if (typeof document !== "undefined") {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, "text/html");
+        const codeBlocks = doc.querySelectorAll('pre[class*="language-"]');
+  
+        codeBlocks.forEach((block) => {
+          const code = block.textContent ? block.textContent.trim() : "";
+          const languageClass = Array.from(block.classList).find((cls) =>
+            cls.startsWith("language-")
+          );
+          const language = languageClass
+            ? languageClass.replace("language-", "")
+            : "jsx";
+  
+          if (Prism.languages[language]) {
+            const highlightedCode = Prism.highlight(
+              code,
+              Prism.languages[language],
+              language
+            );
+  
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("code-wrapper");
+  
+            const newPre = document.createElement("pre");
+            newPre.className = block.className;
+  
+            const newCode = document.createElement("code");
+            newCode.className = languageClass || "";
+            newCode.innerHTML = highlightedCode;
+  
+            newPre.appendChild(newCode);
+            wrapper.appendChild(newPre);
+            if (block.parentNode) {
+              block.parentNode.replaceChild(wrapper, block);
+            }
+            Prism.highlightElement(newCode);
+          }
+        });
+  
+        return doc.body.innerHTML;
+      } catch (error) {
+        return content;
+      }
+    }
+    return content;
+  };
+  
+  
 
   const PostComment = async (event) => {
     event.preventDefault();
@@ -59,7 +124,7 @@ export default function Videos({
   const PostReplyComment = async (id) => {
     if (session) {
       const Username = session.email.split("@")[0];
-  
+
       if (repliedComments.includes(id)) {
         toast("You have already replied to this comment", {
           type: "info",
@@ -67,19 +132,21 @@ export default function Videos({
         });
         return;
       }
-  
+
       try {
         // Call your API function to post the reply
         await HandleReplyPostComment(replyCommentText, id, Username);
-  
+
         // Update repliedComments state to include the replied comment ID
         setRepliedComments([...repliedComments, id]);
-  
+
         // Update BlogPostComments state to immediately show the reply
         setBlogPostComments((prevComments) => {
           return prevComments.map((comment) => {
             if (comment.$id === id) {
-              const updatedReplies = comment.replies ? [...comment.replies] : [];
+              const updatedReplies = comment.replies
+                ? [...comment.replies]
+                : [];
               return {
                 ...comment,
                 replies: [
@@ -95,10 +162,10 @@ export default function Videos({
             return comment;
           });
         });
-  
+
         setReplyCommentText(""); // Clear the reply text input
         setReplyFormVisible(null); // Hide the reply form
-  
+
         toast("Reply Added", { type: "success", autoClose: 3000 });
       } catch (error) {
         toast("Failed to add reply", { type: "error", autoClose: 2000 });
@@ -107,48 +174,50 @@ export default function Videos({
       toast("You need to login first", { type: "error", autoClose: 3000 });
     }
   };
-  
 
   // filtering comments for active video
-  const filterComments = comments.filter((object) => object.blogSlug === slug);
+  const filterComments = BlogPostComments?.filter(
+    (object) => object.blogSlug === slug
+  );
 
   useEffect(() => {
     if (CourseVideos.length > 0) {
       const VIDEO = CourseVideos.filter((item) => item.VideoSlug === slug)[0];
-
       // iframe
-      const iframeData = VIDEO.iframe;
-      const iframe = document.querySelector(".iframe");
-      iframe.innerHTML = iframeData;
+      const iframeData = VIDEO?.iframe;
+      if (typeof document !== "undefined") {
+        const iframe = document.querySelector(".iframe");
+        iframe.innerHTML = iframeData;
 
-      // videoContent
-      const videoContentData = VIDEO.VideoContent;
-      const videoContent = document.querySelector(".video-content");
-      videoContent.innerHTML = videoContentData;
+        // videoContent
+        const videoContentData = replaceCodeBlocks(VIDEO?.VideoContent);
+        const videoContent = document.querySelector(".video-content");
+        videoContent.innerHTML = videoContentData;
 
-      // announcement
-      if (VIDEO.Announcement) {
-        const announcementData = VIDEO.Announcement;
-        const announcement = document.querySelector(".announcement");
-        announcement.innerHTML = announcementData;
-      } else {
-        const announcement = document.querySelector(".announcement");
-        announcement.innerHTML = "No Announcements as of now!";
-      }
-      // downloads
-      if (VIDEO.Download.length > 0) {
-        const downloadData = VIDEO.Download;
-        const download = document.querySelector(".downloads");
-        download.innerHTML = downloadData;
-      } else {
-        const download = document.querySelector(".downloads");
-        download.innerHTML = "No Downloads to show!";
+        // announcement
+        if (VIDEO?.Announcement) {
+          const announcementData = VIDEO?.Announcement;
+          const announcement = document.querySelector(".announcement");
+          announcement.innerHTML = announcementData;
+        } else {
+          const announcement = document.querySelector(".announcement");
+          announcement.innerHTML = "No Announcements as of now!";
+        }
+        // downloads
+        if (VIDEO?.Download.length > 0) {
+          const downloadData = VIDEO.Download;
+          const download = document.querySelector(".downloads");
+          download.innerHTML = downloadData;
+        } else {
+          const download = document.querySelector(".downloads");
+          download.innerHTML = "No Downloads to show!";
+        }
       }
     }
   }, [CourseVideos, slug]);
 
   const showReplyFormHandler = (commentId) => {
-    if (replyComments.includes(commentId)) {
+    if (repliedComments.includes(commentId)) {
       toast("You have already replied to this comment", {
         type: "info",
         autoClose: 3000,
@@ -167,50 +236,57 @@ export default function Videos({
   };
 
   const showSvg = `<svg className=" text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clip-rule="evenodd"/>
+  <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd"/>
 </svg>`;
 
   const hideSvg = `<svg className=" text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clip-rule="evenodd"/>
+  <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clipRule="evenodd"/>
 </svg>`;
+
+  const VIDEO = CourseVideos?.filter((item) => item.VideoSlug === slug)[0];
 
   return (
     <>
+      <Head>
+        <title>{VIDEO ? VIDEO.VideoTitle + " | CodeWithRafay":"Get Web Development Services | CodeWithRafay"}</title>
+        <meta name="description" />
+      </Head>
+
       <style global jsx>{`
-        .video-content img,video{
-          width:630px;
-          margin:20px 0;
-          border-radius:0.5rem;
-        }
-        .video-content a{
-          color:	rgb(37 99 235/1);
-          font-weight:normal;
-          text-decoration:underline;
-        }
-        .video-content p{
-          margin:top:10px;
-          margin-left:10px;
-          line-height:1.6;
-        }
-        .video-content ol{
+         .video-content img, video {
+          margin-top: 20px;
+          margin-bottom:20px;
           margin-left:20px;
+          border-radius: 0.5rem;
         }
-        .video-content li{
-            margin-left:20px;
+        .video-content a {
+          color: rgb(37 99 235/1);
+          font-weight: normal;
+          text-decoration: underline;
         }
-        .video-content h2{
-          font-size:27px;
-          font-weight:600;
-          margin:10px 0;
-          line-height:1.3;
+        .video-content p {
+          margin: top: 10px;
+          margin-left: 10px;
+          line-height: 1.6;
         }
-        .video-content h1{
-          font-size:32px;
-          font-weight:600;
-          margin:10px 0;
-          line-height:1.3;
+        .video-content ol {
+          margin-left: 20px;
         }
-      
+        .video-content li {
+          margin-left: 20px;
+        }
+        .video-content h2 {
+          font-size: 30px;
+          font-weight: 600;
+          margin: 10px 0;
+          line-height: 1.3;
+        }
+        .video-content h3{
+          font-size: 25px;
+          font-weight: 600;
+          margin: 10px 0;
+          line-height: 1.3;
+        }
         .show{
           display:flex;
         }
@@ -260,6 +336,26 @@ export default function Videos({
           background-color:#111827;
       }
 
+       @media only screen and (max-width: 700px) {
+
+        .video-content h2 {
+          font-size: 25px;
+          
+        }
+        .video-content h3{
+          font-size: 20px;
+         
+        }
+        .video-content img, video {
+           margin-left:0px;
+         
+        }
+        .video-content p {
+            font-size: 16px;
+          }
+
+        }
+
       `}</style>
       <div className="min-h-screen pb-10">
         <div
@@ -294,7 +390,7 @@ export default function Videos({
                 <button className="show-content" role="button">
                   Show Course Contents
                 </button>
-                <span className="svg mx-2 svg font-extrabold h-7 w-7">
+                <span className="svg mx-2 text-center svg font-extrabold h-7 w-7">
                   <svg
                     className=" text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -305,9 +401,9 @@ export default function Videos({
                     viewBox="0 0 24 24"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </span>
@@ -356,7 +452,7 @@ export default function Videos({
             )}
           </div>
 
-          <div className="content mt-2 mx-2 dark:text-white w-4/6 ">
+          <div className="content mt-2 px-4 dark:text-white w-4/6 ">
             <div
               className={`video-content flex flex-col ${
                 active === 1 ? "" : "hidden"
@@ -404,161 +500,164 @@ export default function Videos({
                   </form>
                 </div>
 
-                
                 <div className="p-4 mt-2 rounded-lg shadow-l">
-          <h3 className="font-semibold text-2xl dark:text-gray-200">
-            Comments ({filterComments.length})
-          </h3>
+                  <h3 className="font-semibold text-2xl dark:text-gray-200">
+                    Comments ({filterComments.length})
+                  </h3>
 
-          <hr className="my-4 dark:border-gray-500"/>
-          
-          {filterComments.length ? (
-            filterComments.map((comment) => (
-              <div  key={comment.$id} className="flex">
-                <div className="object-contain w-10 flex flex-col items-center mt-3 mx-3">
-              <Image
-                width={30}
-                className="rounded-full"
-                src={user}
-                layout="responsive"
-                alt="User Image"
-              />
-               </div>
-              <div
-              
-                className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4 w-full"
-              >
-                <div className="flex items-center mb-2">
-                  <span className="font-semibold dark:text-white">
-                    {comment.username}
-                  </span>
-                  <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
-                    {new Date(comment.Date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
-                </div>
-                <p className="text-gray-800 dark:text-gray-300">
-                  {comment.commentText}
-                </p>
+                  <hr className="my-4 dark:border-gray-500" />
 
-                <div className="mt-2">
-                  {!repliedComments.includes(comment.$id) ? (
-                    <button
-                      className="bg-purple-700 dark:bg-purple-600 text-white border-0 px-2 focus:outline-none rounded-md text-xs uppercase font-semibold tracking-wide 
+                  {filterComments.length ? (
+                    filterComments.map((comment) => (
+                      <div key={Math.random()} className="flex">
+                        <div className="object-contain w-10 flex flex-col items-center mt-3 mx-3">
+                          <Image
+                            width={30}
+                            className="rounded-full"
+                            src={user}
+                            layout="responsive"
+                            alt="User Image"
+                          />
+                        </div>
+                        <div className="bg-gray-100 rounded-lg p-4 my-2 text-left dark:bg-gray-700 md:w-2/4 w-full">
+                          <div className="flex items-center mb-2">
+                            <span className="font-semibold dark:text-white">
+                              {comment.username}
+                            </span>
+                            <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
+                              {new Date(comment.Date).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                          <p className="text-gray-800 dark:text-gray-300">
+                            {comment.commentText}
+                          </p>
+
+                          <div className="mt-2">
+                            {!repliedComments.includes(comment.$id) ? (
+                              <button
+                                className="bg-purple-700 dark:bg-purple-600 text-white border-0 px-2 focus:outline-none rounded-md text-xs uppercase font-semibold tracking-wide 
              disabled:bg-gray-200 disabled:text-gray-400 py-2 box-border hover:bg-purple-800 dark:hover:bg-purple-600"
-                      onClick={() => showReplyFormHandler(comment.$id)}
-                    >
-                      Reply
-                    </button>
-                  ) : (
-                    <p></p>
-                  )}
+                                onClick={() =>
+                                  showReplyFormHandler(comment.$id)
+                                }
+                              >
+                                Reply
+                              </button>
+                            ) : (
+                              <p></p>
+                            )}
 
-                  {replyFormVisible === comment.$id && (
-                    <div className="flex items-center mt-2">
-                      <input
-                        type="text"
-                        id="replycomment"
-                        name="replycomment"
-                        onChange={(e) => setReplyCommentText(e.target.value)}
-                        value={replyCommentText}
-                        autoFocus
-                        placeholder="Type reply"
-                        className="dark:bg-gray-700 py-0.5 dark:text-white px-2 border rounded-sm text-md flex-grow mr-2 focus:outline-none border-gray-300 focus:border-purple-600 max-w-52 "
-                        required
-                      />
-                      <div className="flex gap-2 ">
-                        <button
-                          className="bg-purple-600 hover:bg-purple-800 dark:bg-purple-500 text-white px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wid dark:hover:bg-purple-600 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:bg-gray-200 dark:disabled:text-gray-400"
-                          onClick={() => PostReplyComment(comment.$id)}
-                        >
-                          Post
-                        </button>
-                        <button
-                          className="px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wide dark:text-white"
-                          onClick={cancelReplyHandler}
-                        >
-                          Cancel
-                        </button>
+                            {replyFormVisible === comment.$id && (
+                              <div className="flex items-center mt-2">
+                                <input
+                                  type="text"
+                                  id="replycomment"
+                                  name="replycomment"
+                                  onChange={(e) =>
+                                    setReplyCommentText(e.target.value)
+                                  }
+                                  value={replyCommentText}
+                                  autoFocus
+                                  placeholder="Type reply"
+                                  className="dark:bg-gray-700 py-0.5 dark:text-white px-2 border rounded-sm text-md flex-grow mr-2 focus:outline-none border-gray-300 focus:border-purple-600 max-w-52 "
+                                  required
+                                />
+                                <div className="flex gap-2 ">
+                                  <button
+                                    className="bg-purple-600 hover:bg-purple-800 dark:bg-purple-500 text-white px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wid dark:hover:bg-purple-600 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:bg-gray-200 dark:disabled:text-gray-400"
+                                    onClick={() =>
+                                      PostReplyComment(comment.$id)
+                                    }
+                                  >
+                                    Post
+                                  </button>
+                                  <button
+                                    className="px-2 py-2 rounded-md text-xs uppercase font-semibold tracking-wide dark:text-white"
+                                    onClick={cancelReplyHandler}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {((comment.replies && comment.replies.length > 0) ||
+                            (repliedComments &&
+                              repliedComments.length > 0)) && (
+                            <div className="mt-2">
+                              <button
+                                className="my-2 uppercase tracking-wide text-gray-400 font-bold text-xs cursor-pointer"
+                                onClick={() => setShowReplies((prev) => !prev)}
+                              >
+                                {ShowReplies ? "Hide Replies" : "Show Replies"}
+                              </button>
+                              {ShowReplies && (
+                                <div className="mt-2">
+                                  {(comment.replies || [])
+                                    .concat(
+                                      repliedComments.filter(
+                                        (reply) =>
+                                          reply.commentId === comment.$id
+                                      )
+                                    )
+                                    .map((reply, index) => (
+                                      <div
+                                        key={index}
+                                        className="bg-gray-200 rounded-lg p-2 my-2 dark:bg-gray-600"
+                                      >
+                                        <div className="flex items-center mb-2">
+                                          <Image
+                                            width={25}
+                                            className="rounded-full"
+                                            src={user}
+                                            alt="User Image"
+                                          />
+                                          <span className="ml-2 font-semibold dark:text-white">
+                                            {reply.username}
+                                          </span>
+                                          <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
+                                            {new Date(
+                                              reply.date
+                                            ).toLocaleDateString("en-US", {
+                                              month: "long",
+                                              day: "numeric",
+                                              year: "numeric",
+                                            })}
+                                          </span>
+                                        </div>
+                                        <p className="text-gray-800 dark:text-gray-200">
+                                          {reply.repliesText}
+                                        </p>
+                                      </div>
+                                    ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    ))
+                  ) : (
+                    <p className="text-xl font-semibold dark:text-white my-4">
+                      No Comments Found...
+                    </p>
                   )}
                 </div>
-
-                {((comment.replies && comment.replies.length > 0) ||
-                  (fetchedReplyComments &&
-                    fetchedReplyComments.length > 0)) && (
-                  <div className="mt-2">
-                    <button
-                      className="my-2 uppercase tracking-wide text-gray-400 font-bold text-xs cursor-pointer"
-                      onClick={() => setShowReplies((prev) => !prev)}
-                    >
-                      {ShowReplies ? "Hide Replies" : "Show Replies"}
-                    </button>
-                    {ShowReplies && (
-                      <div className="mt-2">
-                        {(comment.replies || [])
-                          .concat(
-                            fetchedReplyComments.filter(
-                              (reply) => reply.commentId === comment.$id
-                            )
-                          )
-                          .map((reply, index) => (
-                            <div
-                              key={index}
-                              className="bg-gray-200 rounded-lg p-2 my-2 dark:bg-gray-600"
-                            >
-                              <div className="flex items-center mb-2">
-                                <Image
-                                  width={25}
-                                  className="rounded-full"
-                                  src={user}
-                                  alt="User Image"
-                                />
-                                <span className="ml-2 font-semibold dark:text-white">
-                                  {reply.username}
-                                </span>
-                                <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
-                                  {new Date(reply.date).toLocaleDateString(
-                                    "en-US",
-                                    {
-                                      month: "long",
-                                      day: "numeric",
-                                      year: "numeric",
-                                    }
-                                  )}
-                                </span>
-                              </div>
-                              <p className="text-gray-800 dark:text-gray-200">
-                                {reply.repliesText}
-                              </p>
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-xl font-semibold dark:text-white my-4">
-              No Comments Found...
-            </p>
-          )}
-        </div>
               </section>
             </div>
             <div
               className={`mt-2 dark:text-white ${active === 3 ? "" : "hidden"}`}
             >
               <h2 className="text-3xl font-semibold">Downloads</h2>
-              <div className="downloads  mt-4">
-
-              </div>
+              <div className="downloads  mt-4"></div>
             </div>
             <div
               className={`mt-3 dark:text-white ${active === 4 ? "" : "hidden"}`}
@@ -573,39 +672,59 @@ export default function Videos({
   );
 }
 
-export async function getServerSideProps(context) {
-  const slug = context.query.slug;
+export async function getStaticPaths() {
+  const collectionIdVideos = "6683705f0023464bd1dc";
+  const videos = await Fetching(collectionIdVideos);
+  const paths = videos.documents.map((document) => ({
+    params: { slug: document.VideoSlug },
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+
+export async function getStaticProps(context) {
   let CourseVideos = [];
-  let comments = [];
-  let replyComments = [];
+  const collectionIdVideos = "66836b64001276075376";
 
   try {
-    const collectionIdVideos = "66836b64001276075376";
     const videos = await Fetching(collectionIdVideos);
+
+    if (!videos || !videos.documents) {
+      return {
+        notFound: true,
+      };
+    }
+
     const mappedVideos = videos.documents.map((document) => document);
 
     const filteredObjects = mappedVideos.filter((object) =>
-      object.AllVideosSlug.some((videoSlug) => videoSlug === slug)
+      object.AllVideosSlug.some(
+        (videoSlug) => videoSlug === context.params.slug
+      )
     );
-    CourseVideos = filteredObjects[0].videos;
 
-    const collectionIdComments = "65ee7a19e402a6b0ff30";
-    const commentDocument = await Fetching(collectionIdComments);
-    comments = commentDocument.documents.map((document) => document);
-
-    const collectionIdReplies = "65f158d4f40d89610edb";
-    const replycommentDocument = await Fetching(collectionIdReplies);
-    replyComments = replycommentDocument.documents.map((document) => document);
+    if (filteredObjects.length > 0) {
+      CourseVideos = filteredObjects[0].videos;
+    } else {
+      return {
+        notFound: true,
+      };
+    }
   } catch (error) {
-    
+    return {
+      notFound: true,
+    };
   }
 
   return {
     props: {
       CourseVideos,
-      comments,
-      replyComments,
-      slug,
+      slug: context.params.slug,
     },
+    revalidate: 10800,
   };
 }

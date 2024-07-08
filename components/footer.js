@@ -9,7 +9,7 @@ const Footer = () => {
       <footer className="text -gray-600 body-font dark:bg-gray-800 dark:text-white">
         <div className="container px-5 py-4 mx-auto flex justify-center items-center sm:flex-row flex-col">
           <Link href={'/'} className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-            <Image src={logo} alt='img' className='w-10 rounded-full'></Image>
+            <Image src={logo} alt='img CodeWithRafay'className='w-10 rounded-full'></Image>
             <span className="ml-3 text-xl dark:text-white">CodeWithRafay</span>
           </Link>
           <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 dark:border-gray-400 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 dark:text-gray-400">Copyright © 2024 CodeWithRafay.com

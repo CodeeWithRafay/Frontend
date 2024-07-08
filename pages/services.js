@@ -14,7 +14,7 @@ const Services = () =>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-8 pb-5 mx-auto">
           <div className="flex flex-col text-center w-full ">
-            <h2 className="text-3xl title-font dark:text-purple-500 text-purple-700 font-semibold  mb-12 text-center ">Top Web Development Services</h2>
+            <h2 className="text-3xl title-font dark:text-purple-400 text-purple-700 font-semibold  mb-12 text-center ">Top Web Development Services</h2>
           </div>
           <div className="flex flex-wrap -m-4">
             <div className="p-4 md:w-1/2 ">

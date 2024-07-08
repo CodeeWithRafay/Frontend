@@ -26,7 +26,7 @@ const TermsAndConditions = () => {
       </Head>
 
       <div className="bg-gray-100 md:px-40 md:py-14 px-4 py-10 dark:text-white dark:bg-slate-800">
-        <h2 className="font-bold mb-4">Terms and Conditions</h2>
+        <h2 className="font-bold mb-4 text-purple-700 dark:text-purple-400">Terms and Conditions</h2>
         <p className="mt-4">
           This terms and conditions page was last modified on July 1, 2024.
         </p>

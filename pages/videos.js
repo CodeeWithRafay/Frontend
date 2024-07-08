@@ -6,30 +6,9 @@ import Spinner from '@/components/Spinner';
 import Head from 'next/head';
 
 
-const Videos = () =>
+const Videos = ({ mappedDocuments }) =>
 {
-  const [courses, setCourses] = useState([]);
-  const [loading, setloading] = useState(true)
-
-
-  useEffect(() =>
-  {
-    const fetchCourses = async () =>
-    {
-      try {
-        const collectionId = '66836b64001276075376';
-        const documents = await Fetching(collectionId);
-
-        const mappedDocuments = documents.documents.map((document) => document);
-        setCourses(mappedDocuments);
-        setloading(false)
-      } catch (error) {
-        
-      }
-    };
-    
-    fetchCourses();
-  }, []);
+  const [courses, setCourses] = useState(mappedDocuments);
 
   return (
     <>
@@ -40,7 +19,7 @@ const Videos = () =>
         <meta name="keywords" content="web development courses, premium courses, web development , CodeWithRafay courses"></meta>
       </Head>
       {
-        loading ? <Spinner/> : (
+        (
         <div className='min-h-screen'><div className="pt-8 w-full container mx-auto flex justify-center items-center flex-col mb-8">
         <h2 className='capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-400'>Premium Courses</h2>
         <div className='courses-grid w-full grid grid-cols-3 justify-items-center items-center mt-8 gap-6' >
@@ -89,3 +68,22 @@ const Videos = () =>
 
 export default Videos;
 
+
+export async function getStaticProps(context) {
+  let mappedDocuments = [];
+
+  try {
+    const collectionId = '66836b64001276075376';
+    const documents = await Fetching(collectionId);
+    mappedDocuments = documents.documents.map((document) => document);
+  } catch (error) {
+    toast.error("Something Went Wrong!, Please come back after some time");
+  }
+
+  return {
+    props: {
+      mappedDocuments,
+    },
+    revalidate: 86400,
+  };
+}

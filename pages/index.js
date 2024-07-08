@@ -71,7 +71,7 @@ export default function Page() {
         <div className="flex flex-col hero pl-0 md:pl-5">
           <h1 className="text-4xl font-semibold px-5 md:px-0 lg:px-0 dark:text-white">
             Welcome to
-            <span className="capitalize text-purple-700 dark:text-purple-500 transition-all">
+            <span className="capitalize text-purple-600 dark:text-purple-400 transition-all">
               {" "}
               <ReactTyped
                 strings={["CodeWithRafay"]}
@@ -85,7 +85,7 @@ export default function Page() {
             <h4 className="h-auto font-semibold mt-1 capitalize dark:text-white">
               Get
             </h4>
-            <h4 className="h-auto font-semibold mt-1 capitalize text-purple-700 TypedJS dark:text-purple-600">
+            <h4 className="h-auto font-semibold mt-1 capitalize text-purple-700 TypedJS dark:text-purple-500">
               <ReactTyped
                 strings={[
                   "Full Stack Development",

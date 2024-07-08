@@ -15,7 +15,7 @@ const Contact = () =>
         <meta name="keywords" content="contact CodeWithRafay, web development services, request a quote, get in touch"></meta>
       </Head>
 
-      <div className='container mx-auto w-full md:mt-24 md:px-32 min-h-screen'>
+      <div className='container mx-auto w-full mt-24 md:px-32 min-h-screen  px-5'>
         <div className='card w-full flex flex-col justify-center items-center py-8  rounded-2xl shadow-lg'>
           <h3 className='text-3xl font-semibold mt-5 dark:text-white'>Feel Free To Contact us!</h3>
           <Image className='rounded-full mt-10 border-black border-2 ' width={130} height={50} src={logo} alt='img CodeWithRafay logo' layout="fixed"/>

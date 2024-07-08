@@ -154,7 +154,7 @@ const SignupPage = () =>
         />
       </Head>
 
-      <div className="">
+      <div className="min-h-screen">
         <div className="mx-auto flex w-full h-full md:my-20 max-w-md sm:max-w-xl my-3 sm:my-14 md:max-w-4xl dark:bg-slate-800">
           <div
             className="w-full bg-cover h-auto rounded-s-md hidden sm:hidden md:block lg:block xl:block"
