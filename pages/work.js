@@ -73,6 +73,6 @@ export async function getStaticProps(context) {
     props: {
       mappedDocuments,
     },
-    revalidate: 86400,
+    revalidate: 172800,
   };
 }

@@ -11,7 +11,6 @@ import "prismjs/components/prism-jsx";
 import "prismjs/themes/prism-okaidia.css";
 import Head from "next/head";
 import AuthContext from "@/components/AuthContext";
-import DOMPurify from "dompurify";
 
 export default function BlogPostPage({ blogs}) {
   const router = useRouter();
@@ -70,43 +69,98 @@ export default function BlogPostPage({ blogs}) {
     setFetchedReplyComments(repliedComments);
   }, [repliedComments]);
 
-  const replaceCodeBlocks = (content) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, "text/html");
-    const codeBlocks = doc.querySelectorAll('pre[class*="language-"]');
+ 
+  useEffect(() => {
+    if (BlogPost) {
+      
+        // Process video content for code blocks and images
+        const processedContent = BlogPost?.BlogContent.replace(
+          /(<pre class="language-(\w+)">([\s\S]*?)<\/pre>)|(<div class="image-previewable">\s*<img src="([^"]+)" alt="([^"]+)"\/>\s*<\/div>)/g,
+          (match, codeBlock, language, code, imageUrl, altText) => {
+            if (codeBlock) {
+              return `
+                <div class="code-wrapper">
+                  <button class="copy-btn">Copy</button>
+                  <pre class="language-${language}">${code}</pre>
+                </div>
+              `;
+            } else if (imageUrl) {
+              return `
+                <div class="image-previewable relative">
+                  <img class="w-full h-auto cursor-pointer" src="${imageUrl}" alt="${altText}">
+                  <div class="close-btn hidden absolute top-4 right-4 bg-black text-white rounded-full p-3 cursor-pointer text-3xl">✕</div>
+                </div>
+              `;
+            }
+            return match; // fallback for unmatched cases
+          }
+        );
+  
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = processedContent;
+  
+        const videoContent = document.querySelector('.blog-content');
+        videoContent.innerHTML = '';
+        videoContent.appendChild(tempDiv);
+  
+        Prism.highlightAll();
+  
+        const buttons = document.querySelectorAll('.copy-btn');
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            const codeBlock = button.nextElementSibling;
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent.trim();
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+              button.textContent = 'Copy';
+            }, 2000);
+          });
+        });
+  
+        // Event listeners for image previews
+        const imagePreviewables = document.querySelectorAll('.image-previewable');
+        imagePreviewables.forEach(imagePreviewable => {
+          const img = imagePreviewable.querySelector('img');
+          const closeBtn = imagePreviewable.querySelector('.close-btn');
+          
+          if (img) {
+            img.addEventListener('click', () => {
+              img.classList.toggle('full-view');
+              if (closeBtn) {
+                closeBtn.classList.toggle('hidden');
+              }
+              imagePreviewable.classList.toggle('full-view');
+  
+              if (img.classList.contains('full-view')) {
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when image is in full view
+              } else {
+                document.body.style.overflow = ''; // Restore scrolling
+              }
+            });
+          }
+  
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent triggering the image click event
+              if (img) {
+                img.classList.remove('full-view');
+              }
+              closeBtn.classList.add('hidden');
+              imagePreviewable.classList.remove('full-view');
+              document.body.style.overflow = ''; // Restore scrolling
+            });
+          }
+        });
+  
 
-    codeBlocks.forEach((block, index) => {
-      const code = block.textContent.trim();
-      const languageClass = Array.from(block.classList).find((cls) =>
-        cls.startsWith("language-")
-      );
-      const language = languageClass
-        ? languageClass.replace("language-", "")
-        : "jsx";
-      const highlightedCode = Prism.highlight(
-        code,
-        Prism.languages[language],
-        language
-      );
+    }
+  }, [BlogPost, slug]);
 
-      const wrapper = document.createElement("div");
-      wrapper.classList.add("code-wrapper");
-
-      const newPre = document.createElement("pre");
-      newPre.className = block.className;
-
-      const newCode = document.createElement("code");
-      newCode.className = languageClass;
-      newCode.innerHTML = highlightedCode;
-
-      newPre.appendChild(newCode);
-      wrapper.appendChild(newPre);
-      block.parentNode.replaceChild(wrapper, block);
-      Prism.highlightElement(newCode);
-    });
-
-    return doc.body.innerHTML;
-  };
 
   const handleCommentText = (e) => {
     setCommentText(e.target.value);
@@ -344,6 +398,7 @@ export default function BlogPostPage({ blogs}) {
                   <Image
                     width={550}
                     height={100}
+                    className="rounded-lg"
                     src={BlogPost.BlogImage}
                     alt="image cwr blog"
                     priority={true}
@@ -354,11 +409,6 @@ export default function BlogPostPage({ blogs}) {
               )}
               <div
                 className="blog-content text-left mt-3 dark:text-gray-200"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    replaceCodeBlocks(BlogPost.BlogContent)
-                  ),
-                }}
               />
             </div>
           </div>
@@ -568,6 +618,6 @@ export async function getStaticProps(context) {
     props: {
       blogs,
     },
-    revalidate: 10800, 
+    revalidate: 86400, 
   };
 }

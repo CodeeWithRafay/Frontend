@@ -8,6 +8,7 @@ import AuthContext from "@/components/AuthContext";
 import { Fetching } from "@/pages/api/fetching";
 import Head from "next/head";
 import Prism from 'prismjs';
+import "prismjs/themes/prism-okaidia.css";
 import 'prismjs/components/prism-jsx';
 
 
@@ -20,6 +21,7 @@ export default function Videos({ CourseVideos, slug }) {
   const [ShowReplies, setShowReplies] = useState(false);
   const [replyFormVisible, setReplyFormVisible] = useState(null);
   const [repliedComments, setRepliedComments] = useState([]);
+
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -43,57 +45,6 @@ export default function Videos({ CourseVideos, slug }) {
     fetchComments();
   }, [slug]);
 
-  const replaceCodeBlocks = (content) => {
-    if (typeof document !== "undefined") {
-      try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(content, "text/html");
-        const codeBlocks = doc.querySelectorAll('pre[class*="language-"]');
-  
-        codeBlocks.forEach((block) => {
-          const code = block.textContent ? block.textContent.trim() : "";
-          const languageClass = Array.from(block.classList).find((cls) =>
-            cls.startsWith("language-")
-          );
-          const language = languageClass
-            ? languageClass.replace("language-", "")
-            : "jsx";
-  
-          if (Prism.languages[language]) {
-            const highlightedCode = Prism.highlight(
-              code,
-              Prism.languages[language],
-              language
-            );
-  
-            const wrapper = document.createElement("div");
-            wrapper.classList.add("code-wrapper");
-  
-            const newPre = document.createElement("pre");
-            newPre.className = block.className;
-  
-            const newCode = document.createElement("code");
-            newCode.className = languageClass || "";
-            newCode.innerHTML = highlightedCode;
-  
-            newPre.appendChild(newCode);
-            wrapper.appendChild(newPre);
-            if (block.parentNode) {
-              block.parentNode.replaceChild(wrapper, block);
-            }
-            Prism.highlightElement(newCode);
-          }
-        });
-  
-        return doc.body.innerHTML;
-      } catch (error) {
-        return content;
-      }
-    }
-    return content;
-  };
-  
-  
 
   const PostComment = async (event) => {
     event.preventDefault();
@@ -182,40 +133,110 @@ export default function Videos({ CourseVideos, slug }) {
 
   useEffect(() => {
     if (CourseVideos.length > 0) {
-      const VIDEO = CourseVideos.filter((item) => item.VideoSlug === slug)[0];
+      const VIDEO = CourseVideos.find((item) => item.VideoSlug === slug);
+  
       // iframe
       const iframeData = VIDEO?.iframe;
       if (typeof document !== "undefined") {
         const iframe = document.querySelector(".iframe");
         iframe.innerHTML = iframeData;
-
-        // videoContent
-        const videoContentData = replaceCodeBlocks(VIDEO?.VideoContent);
-        const videoContent = document.querySelector(".video-content");
-        videoContent.innerHTML = videoContentData;
-
+  
+        // Process video content for code blocks and images
+        const processedContent = VIDEO?.VideoContent.replace(
+          /(<pre class="language-(\w+)">([\s\S]*?)<\/pre>)|(<div class="image-previewable">\s*<img src="([^"]+)" alt="([^"]+)"\/>\s*<\/div>)/g,
+          (match, codeBlock, language, code, imageUrl, altText) => {
+            if (codeBlock) {
+              return `
+                <div class="code-wrapper">
+                  <button class="copy-btn">Copy</button>
+                  <pre class="language-${language}">${code}</pre>
+                </div>
+              `;
+            } else if (imageUrl) {
+              return `
+                <div class="image-previewable relative">
+                  <img class="w-full h-auto cursor-pointer" src="${imageUrl}" alt="${altText}">
+                  <div class="close-btn hidden absolute top-4 right-4 bg-black text-white rounded-full p-3 cursor-pointer text-3xl">✕</div>
+                </div>
+              `;
+            }
+            return match; // fallback for unmatched cases
+          }
+        );
+  
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = processedContent;
+  
+        const videoContent = document.querySelector('.video-content');
+        videoContent.innerHTML = '';
+        videoContent.appendChild(tempDiv);
+  
+        Prism.highlightAll();
+  
+        const buttons = document.querySelectorAll('.copy-btn');
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            const codeBlock = button.nextElementSibling;
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent.trim();
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+              button.textContent = 'Copy';
+            }, 2000);
+          });
+        });
+  
+        // Event listeners for image previews
+        const imagePreviewables = document.querySelectorAll('.image-previewable');
+        imagePreviewables.forEach(imagePreviewable => {
+          const img = imagePreviewable.querySelector('img');
+          const closeBtn = imagePreviewable.querySelector('.close-btn');
+          
+          if (img) {
+            img.addEventListener('click', () => {
+              img.classList.toggle('full-view');
+              if (closeBtn) {
+                closeBtn.classList.toggle('hidden');
+              }
+              imagePreviewable.classList.toggle('full-view');
+  
+              if (img.classList.contains('full-view')) {
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when image is in full view
+              } else {
+                document.body.style.overflow = ''; // Restore scrolling
+              }
+            });
+          }
+  
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent triggering the image click event
+              if (img) {
+                img.classList.remove('full-view');
+              }
+              closeBtn.classList.add('hidden');
+              imagePreviewable.classList.remove('full-view');
+              document.body.style.overflow = ''; // Restore scrolling
+            });
+          }
+        });
+  
         // announcement
-        if (VIDEO?.Announcement) {
-          const announcementData = VIDEO?.Announcement;
-          const announcement = document.querySelector(".announcement");
-          announcement.innerHTML = announcementData;
-        } else {
-          const announcement = document.querySelector(".announcement");
-          announcement.innerHTML = "No Announcements as of now!";
-        }
+        const announcement = document.querySelector(".announcement");
+        announcement.innerHTML = VIDEO?.Announcement || "No Announcements as of now!";
+  
         // downloads
-        if (VIDEO?.Download.length > 0) {
-          const downloadData = VIDEO.Download;
-          const download = document.querySelector(".downloads");
-          download.innerHTML = downloadData;
-        } else {
-          const download = document.querySelector(".downloads");
-          download.innerHTML = "No Downloads to show!";
-        }
+        const download = document.querySelector(".downloads");
+        download.innerHTML = VIDEO?.Download.length > 0 ? VIDEO.Download : "No Downloads to show!";
       }
     }
   }, [CourseVideos, slug]);
-
+  
+  
   const showReplyFormHandler = (commentId) => {
     if (repliedComments.includes(commentId)) {
       toast("You have already replied to this comment", {
@@ -725,6 +746,6 @@ export async function getStaticProps(context) {
       CourseVideos,
       slug: context.params.slug,
     },
-    revalidate: 10800,
+    revalidate: 21600,
   };
 }
