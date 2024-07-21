@@ -11,5 +11,7 @@ export async function getLoginedUserDetails() {
         const user = await account.get();
         return user;
     } catch (error) {
+        console.error('Error fetching user details:', error);
+        throw error; 
     }
 }

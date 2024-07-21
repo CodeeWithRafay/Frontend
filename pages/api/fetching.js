@@ -14,8 +14,6 @@ export async function Fetching ( collectionId ) {
 
   return promise.then(function (response) {
     return response
-  }, function (error) {
-    return error;
   });
 }
 

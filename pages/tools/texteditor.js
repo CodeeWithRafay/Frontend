@@ -192,7 +192,7 @@ const TextEditor = () =>
       
       `}</style>
       <div className="container mx-auto my-10 bg-white dark:bg-gray-800  p-8 rounded-lg shadow-lg min-h-screen">
-        <h1 className="text-2xl font-bold mb-4 p-2 rounded pl-8 bg-cyan-200 dark:text-white dark:bg-cyan-800">{wordCount} Words {charCount} Characters</h1>
+        <h1 className="text-2xl font-bold mb-4 p-2 rounded pl-8 bg-purple-200 dark:text-white dark:bg-purple-900">{wordCount} Words {charCount} Characters</h1>
         <div className="options flex flex-wrap items-center gap-4 mb-4">
           <select id="fontName" ref={fontNameRef} className="adv-option-button" onChange={(e) => handleFormat('fontName', e.target.value)}></select>
 
@@ -269,7 +269,7 @@ const TextEditor = () =>
         <div
           id="text-input"
           ref={textInputRef}
-          className="dark:bg-gray-900 dark:text-white dark:border-slate-50 rounded mt-4 border outline-none border-gray-300 p-4 min-h-[20rem] h-auto textarea"
+          className="dark:bg-slate-900 dark:text-white dark:border-slate-50 rounded mt-4 border outline-none border-gray-300 p-4 min-h-[20rem] h-auto textarea"
           contentEditable="true"
           onInput={updateCounts}
           onFocus={() => textInputRef.current.classList.add("focus")}
@@ -279,7 +279,7 @@ const TextEditor = () =>
         {/* Text editor features section */}
         <hr className="border-gray-200 dark:border-gray-500 mt-10"></hr>
         <div className="mt-5 dark:text-white">
-          <h3 className=" font-semibold mb-2 sm:text-xl md:text-3xl text-purple-700 dark:text-purple-500">Text Editor Features:</h3>
+          <h3 className=" font-semibold mb-2 sm:text-xl md:text-3xl text-purple-800 dark:text-purple-500 tracking-wide">Text Editor Features:</h3>
           <ul className="list-disc pl-4 md:text-lg sm:text-sm">
           <li><strong className="font-bold">Bold</strong>, <em className="italic">Italic</em>, <u className="underline">Underline</u>, <del className="line-through">Strikethrough</del></li>
             <li>Superscript<sup className="text-xs">®</sup>, Subscript<sub className="text-xs">2</sub></li>

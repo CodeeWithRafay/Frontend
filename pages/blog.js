@@ -82,7 +82,7 @@ const Blog = ({ initialBlogs }) => {
 
       <section className='bg-gray-100 min-h-screen dark:bg-gray-900'>
         <div className="pt-8 mb-4 p-6 lg:w-10/12 mx-auto">
-          <h2 className='capitalize text-3xl sm:text-3xl mx-4 ml-10 font-semibold md:text-left md:text-4xl dark:text-purple-400 text-purple-700'>Coding Articles</h2>
+          <h2 className='capitalize text-3xl sm:text-3xl mx-4 ml-10  md:text-left md:text-4xl  font-semibold dark:text-white '>Coding Articles</h2>
 
           <InfiniteScroll
             dataLength={blogs.length}

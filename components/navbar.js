@@ -111,7 +111,7 @@ export default function Navbar() {
                   scroll={false}
                   className="nav-link cursor-pointer mr-4 text-black  dark:text-white hover:border-b-2  hover:border-purple-800 capitalize dark:hover:border-purple-600"
                 >
-                  Courses
+                  videos
                 </Link>
 
                 <Link
@@ -129,11 +129,11 @@ export default function Navbar() {
                   Blog
                 </Link>
                 <Link
-                  href="/work/"
+                  href="/portfolio/"
                   scroll={false}
                   className="nav-link cursor-pointer mr-4 hover:border-b-2 text-black dark:text-white  hover:border-purple-800 capitalize dark:hover:border-purple-600"
                 >
-                  Our Work
+                  Portfolio
                 </Link>
                 <Link
                   href="/contact/"
@@ -145,9 +145,9 @@ export default function Navbar() {
                 <Link
                   href="/hire/"
                   scroll={false}
-                  className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800 capitalize"
+                  className="nav-link cursor-pointer mr-5 text-black  dark:text-white hover:border-b-2 hover:border-purple-800"
                 >
-                  Hire us
+                  Hire Us
                 </Link>
               </nav>
               <svg
@@ -169,19 +169,19 @@ export default function Navbar() {
                 {session ? (
                   <button
                     onClick={handleSignOut}
-                    className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 hover:bg-purple-800 rounded-lg text-sm mt-4 focus:outline-purple-500 focus:outline dark:hover:bg-purple-700"
+                    className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 hover:bg-purple-800 rounded-lg text-sm mt-4 font-medium focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 text-pretty"
                   >
                     Logout
                   </button>
                 ) : (
                   <>
                     <Link href="/login">
-                      <button className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3  hover:bg-purple-800 focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 rounded-lg text-sm mt-4 font-normal">
+                      <button className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3  hover:bg-purple-800 focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 rounded-lg text-sm mt-4 font-medium text-pretty">
                         Login
                       </button>
                     </Link>
                     <Link href="/signup">
-                      <button className="mx-2 inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 focus:outline-purple-500 focus:outline hover:bg-purple-800 rounded-lg dark:hover:bg-purple-700  text-sm mt-4 button-signup font-normal">
+                      <button className="mx-2 inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 focus:outline-purple-500 focus:outline hover:bg-purple-800 rounded-lg dark:hover:bg-purple-700 text-sm mt-4 button-signup font-medium">
                         Signup
                       </button>
                     </Link>
@@ -314,7 +314,7 @@ export default function Navbar() {
             scroll={false}
             className="cursor-pointer mr-5 text-purple-500 font-semibold"
           >
-            Courses
+            videos
           </Link>
           <Link
             href="/tools"
@@ -331,11 +331,11 @@ export default function Navbar() {
             Blog
           </Link>
           <Link
-            href="/work"
+            href="/portfolio"
             scroll={false}
             className="cursor-pointer mr-5 text-purple-500 font-semibold"
           >
-            Our Work
+            Portfolio
           </Link>
           <Link
             href="/contact"
@@ -349,7 +349,7 @@ export default function Navbar() {
             scroll={false}
             className="cursor-pointer mr-5 text-purple-500 font-semibold"
           >
-            Hire US
+            Hire Us
           </Link>
         </div>
       </div>

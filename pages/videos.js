@@ -13,7 +13,7 @@ const Videos = ({ mappedDocuments }) =>
   return (
     <>
      <Head>
-        <title>Courses | CodeWithRafay</title>
+        <title>Video Series | CodeWithRafay</title>
         <meta name="description" content="Confused on which course to take? I have got you covered. Explore our best premium web development courses. It's free." />
         <link rel="canonical" href="https://www.codewithrafay.com/work" />
         <meta name="keywords" content="web development courses, premium courses, web development , CodeWithRafay courses"></meta>
@@ -21,7 +21,7 @@ const Videos = ({ mappedDocuments }) =>
       {
         (
         <div className='min-h-screen'><div className="pt-8 w-full container mx-auto flex justify-center items-center flex-col mb-8">
-        <h2 className='capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-400'>Premium Courses</h2>
+        <h2 className='capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-400'>Video Series</h2>
         <div className='courses-grid w-full grid grid-cols-3 justify-items-center items-center mt-8 gap-6' >
           {
             courses.map((item) => (
@@ -31,9 +31,8 @@ const Videos = ({ mappedDocuments }) =>
                     className="absolute inset-0 w-full h-full border-t-2 dark:border-none"
                     src={`${item['Course-Image']}`}
                     alt='img codewithrafay course-image'
-                    layout="responsive"
-                    width={100}
-                    height={100}
+                   fill
+                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{ borderRadius: "1rem 1rem 0 0" }}
                  
                   />

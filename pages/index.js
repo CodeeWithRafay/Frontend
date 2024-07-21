@@ -4,6 +4,8 @@ import { ReactTyped } from "react-typed";
 import image3 from "@/image/3.png";
 import image1 from "@/image/1.png";
 import image4 from "@/image/4.png";
+import image6 from "@/image/6.png";
+import logo from "@/image/logo.png";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -66,12 +68,13 @@ export default function Page() {
           content="Welcome to CodeWithRafay, your go-to web development agency. We create web apps, CMS, e-commerce stores, and more. Discover our services and read our latest blog posts."
         />
         <link rel="canonical" href="https://www.codewithrafay.com/" />
+        <link rel="preload" href="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80" as="image"></link>
       </Head>
       <div className="grid grid-cols-2 place-items-center w-full h-96 xl:container hero-grid mx-auto dark:bg-gray-900">
         <div className="flex flex-col hero pl-0 md:pl-5">
           <h1 className="text-4xl font-semibold px-5 md:px-0 lg:px-0 dark:text-white">
             Welcome to
-            <span className="capitalize text-purple-600 dark:text-purple-400 transition-all">
+            <span className="capitalize text-purple-700 dark:text-purple-400 transition-all">
               {" "}
               <ReactTyped
                 strings={["CodeWithRafay"]}
@@ -90,16 +93,14 @@ export default function Page() {
                 strings={[
                   "Full Stack Development",
                   "Web App Development",
-                  "CMS",
+                  "Wordpress Development",
                   "SEO",
-                  "Maintenance",
                   "Bugs Fixing",
-                  "Optimization",
                   "Deployment",
                 ]}
-                typeSpeed={20}
+                typeSpeed={17}
                 backDelay={1400}
-                backSpeed={25}
+                backSpeed={23}
                 startDelay={500}
                 loop
               />
@@ -144,11 +145,12 @@ export default function Page() {
               filter: "brightness(0.8)",
             }}
           ></div>
+         
         </div>
       </div>
 
       <div className="my-10 w-full xl:container mx-auto flex justify-center items-center flex-col">
-        <h2 className="capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-500">
+        <h2 className="capitalize text-3xl text-center  font-medium dark:text-purple-500">
         Our Latest Work
         </h2>
         <div className="w-full second-cont-grid grid grid-cols-3 justify-items-center items-center mt-8">
@@ -161,9 +163,9 @@ export default function Page() {
                 className="absolute inset-0 w-full h-full border-t-2 dark:border-none"
                 src={image1}
                 alt="img codewithrafay course-image"
-                layout="responsive"
-                width={100}
-                height={100}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ borderRadius: "1rem 1rem 0 0" }}
               />
             </div>
@@ -199,9 +201,9 @@ export default function Page() {
                 className="absolute inset-0 w-full h-full border-t-2 dark:border-none"
                 src={image4}
                 alt="img codewithrafay course-image"
-                layout="responsive"
-                width={100}
-                height={100}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ borderRadius: "1rem 1rem 0 0" }}
               />
             </div>
@@ -239,9 +241,9 @@ export default function Page() {
                 className="absolute inset-0 w-full h-full border-t-2 dark:border-none"
                 src={image3}
                 alt="img codewithrafay course-image"
-                layout="responsive"
-                width={100}
-                height={100}
+                fill 
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ borderRadius: "1rem 1rem 0 0" }}
               />
             </div>
@@ -269,16 +271,78 @@ export default function Page() {
           </div>
         </div>
       </div>
+    
+      <section className="my-10 w-full xl:container mx-auto flex justify-center items-center flex-col dark:text-white">
+      <div className="container mx-auto px-4">
+      <h2 className="capitalize text-3xl text-center  font-medium dark:text-purple-500">
+        Our Latest Work
+        </h2>
+          <div className="grid grid-cols-2 justify-items-center  bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700 my-5">
+            <div>
+          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
+              COSMETICS SHOP
+              </span>
+            <h3 className="text-2xl font-semibold mb-2">Deloitte</h3>
+            <p className="mt-3 h-32 text-md max-w-lg ">
+              Discover our cosmetics shop, offering a wide range of beauty products with amazing features. From skincare to makeup, find everything you need to enhance your beauty. Shop now and experience the difference!
+              </p>
+            <div className="flex flex-wrap mb-4">
+              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
+              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
+              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
+            </div>
+            <p className="text-sm italic mb-2">The service was excellent. Template example is the next killer app."</p>
+            <div className="flex items-center">
+              <Image src={logo} alt="Jeremy Douglass" width={40} height={40} className="rounded-full mr-2" />
+              <div className="flex flex-col text-center">
+              <span className="text-sm text-purple-500">Jeremy Douglass</span>
+              <span className="text-sm text-gray-500">UI & UX Designer</span>
+              </div>
+            </div>
+            </div>
+            <div>
+              <Image src={image6} alt="img" />
+            </div>
+          </div>
+        <div className="grid grid-cols-2 my-5  gap-1">
+          <div className=" bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700">
+          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
+              COSMETICS SHOP
+              </span>
+            <h3 className="text-2xl font-semibold mb-2">Raze</h3>
+            <p className="mb-4">Project was about precision and information. That&apos;s all.</p>
+            <div className="flex flex-wrap mb-4">
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
+            </div>
+          </div>
+          {/* Project 3 */}
+          <div className=" bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700">
+          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
+              COSMETICS SHOP
+              </span>
+            <h3 className="text-2xl font-semibold mb-2">Quillow</h3>
+            <p className="mb-4">Project was about precision and information.</p>
+            <div className="flex flex-wrap mb-4">
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
+              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
       <div className="w-full container mx-auto flex justify-center items-center flex-col mb-16 ">
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-15 mx-auto">
-            <h1 className="capitalize text-3xl text-center text-purple-700 font-semibold dark:text-purple-500 mb-12">
+            <h2 className="capitalize text-3xl text-center font-medium dark:text-purple-500 mb-12">
               Testimonials
-            </h1>
+            </h2>
             <div className="flex flex-wrap -m-4">
               <div className="p-4 md:w-1/2 w-full">
-                <div className="h-full bg-gray-100 p-8 rounded dark:bg-gray-700">
+                <div className="h-full bg-gray-200 p-8 rounded dark:bg-gray-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -295,7 +359,7 @@ export default function Page() {
                       <span className="title-font font-medium text-gray-900 dark:text-white">
                       Jane Smith
                       </span>
-                      <span className="text-gray-500 text-sm dark:text-gray-400">
+                      <span className="text-gray-800 text-sm dark:text-gray-300">
                       Business Owner
                       </span>
                     </span>
@@ -303,7 +367,7 @@ export default function Page() {
                 </div>
               </div>
               <div className="p-4 md:w-1/2 w-full">
-                <div className="h-full bg-gray-100 p-8 rounded dark:bg-gray-700">
+                <div className="h-full bg-gray-200 p-8 rounded dark:bg-gray-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -320,7 +384,7 @@ export default function Page() {
                       <span className="title-font font-medium text-gray-900 dark:text-white">
                         Umair Zafar
                       </span>
-                      <span className="text-gray-500 text-sm dark:text-gray-400">
+                      <span className="text-gray-800 text-sm dark:text-gray-300">
                       E-commerce Entrepreneur
                       </span>
                     </span>

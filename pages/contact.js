@@ -19,7 +19,7 @@ const Contact = () =>
         <div className='card w-full flex flex-col justify-center items-center py-8  rounded-2xl shadow-lg'>
           <h3 className='text-3xl font-semibold mt-5 dark:text-white'>Feel Free To Contact us!</h3>
           <Image className='rounded-full mt-10 border-black border-2 ' width={130} height={50} src={logo} alt='img CodeWithRafay logo' layout="fixed"/>
-          <div className='card flex gap-14 mt-10 mb-5  dark:bg-gray-600 rounded-xl bg-gray-300 p-5' >
+          <div className='card flex gap-14 mt-10 mb-5   rounded-xl p-5' >
             <a href="https://www.linkedin.com/in/abdul-rafay-97285b274/" target="_blank" rel="noopener noreferrer" aria-label="Linkedin">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

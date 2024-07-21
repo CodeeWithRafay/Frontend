@@ -1,5 +1,6 @@
 import { Client, Databases, Account, ID, AppwriteException } from "appwrite";
 import { toast } from "react-toastify";
+import { SignJWT } from 'jose';
 
 
 function handleError(error)
@@ -70,9 +71,6 @@ export async function HandleCommentPost(text, slug, username)
     {
 
         return (response)
-    }, function (error)
-    {
-        return (error)
     });
 
 }
@@ -104,9 +102,6 @@ export async function HandleReplyPostComment(text, commentId, username)
     {
 
         return (response)
-    }, function (error)
-    {
-        return (error)
     });
 
 }
@@ -140,7 +135,7 @@ export async function HandleSignup(email, password)
             return;
         }
 
-        // Initiate verification process
+      
         try {
             await account.createVerification('https://www.codewithrafay.com//verify');
             toast.success('Verification Email sent. Please check your inbox.');
@@ -156,14 +151,15 @@ export async function HandleSignup(email, password)
     }
 }
 
+
 // Login
-export async function HandleLogin(email, password)
-{
+
+export async function HandleLogin(email, password) {
     try {
-        const response = await account.createEmailSession(email, password);
+        await account.createEmailSession(email, password); 
         return true;
+     
     } catch (error) {
-        handleError(error);
         return false;
     }
 }

@@ -3,6 +3,7 @@ import { getLoginedUserDetails } from '@/pages/api/getLoginedUserDetails';
 
 const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
     const [session, setSession] = useState(null);
 

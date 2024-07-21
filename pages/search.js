@@ -13,12 +13,12 @@ const Search = () => {
   const [data, setData] = useState({
     Videos: [],
     Blogs: [],
-    Work: [],
+    portfolio: [],
   });
   const [categoryCounts, setCategoryCounts] = useState({
     Videos: 0,
     Blogs: 0,
-    Work: 0,
+    portfolio: 0,
   });
 
   useEffect(() => {
@@ -39,31 +39,31 @@ const Search = () => {
           [Query.search("title", query)]
         );
 
-        const workResponse = databases.listDocuments(
+        const portfolioResponse = databases.listDocuments(
           "65e6a28976615aa73abb",
           "66594c42003b5b5332f7",
           [Query.search("ProjectTitle", query)]
         );
 
         // Wait for all responses to resolve
-        const [videosResult, blogsResult, workResult] = await Promise.all([
+        const [videosResult, blogsResult, portfolioResult] = await Promise.all([
           videosResponse,
           blogsResponse,
-          workResponse,
+          portfolioResponse,
         ]);
 
         // Update state with fetched data
         setData({
           Videos: videosResult.documents || [],
           Blogs: blogsResult.documents || [],
-          Work: workResult.documents || [],
+          portfolio: portfolioResult.documents || [],
         });
 
         // Update category counts
         setCategoryCounts({
           Videos: videosResult.documents ? videosResult.documents.length : 0,
           Blogs: blogsResult.documents ? blogsResult.documents.length : 0,
-          Work: workResult.documents ? workResult.documents.length : 0,
+          portfolio: portfolioResult.documents ? portfolioResult.documents.length : 0,
         });
       } catch (error) {
 
@@ -79,8 +79,8 @@ const Search = () => {
         return item.VideoSlug || item.slug || "";
       case "Blogs":
         return item.BlogSlug || item.slug || ""; // Adjust to BlogSlug or slug depending on your data structure
-      case "Work":
-        return item.WorkSlug || item.slug || "";
+      case "portfolio":
+        return item.portfolioSlug || item.slug || "";
       default:
         return "";
     }
@@ -103,7 +103,7 @@ const Search = () => {
         </div>
         <div className="py-4">
           <div className="flex ml-8 dark:text-gray-400">
-            {[ "Blogs", "Videos", "Work"].map((tab) => (
+            {[ "Blogs", "Videos", "portfolio"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -126,8 +126,8 @@ const Search = () => {
                         `IN VIDEO & VIDEO SERIES (${categoryCounts.Videos} RESULTS FOUND)`}
                       {activeTab === "Blogs" &&
                         `IN BLOGS (${categoryCounts.Blogs} RESULTS FOUND)`}
-                      {activeTab === "Work" &&
-                        `IN WORK (${categoryCounts.Work} RESULTS FOUND)`}
+                      {activeTab === "portfolio" &&
+                        `IN portfolio (${categoryCounts.portfolio} RESULTS FOUND)`}
                     </th>
                   </tr>
                 </thead>

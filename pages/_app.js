@@ -63,7 +63,14 @@ export default function App({ Component, pageProps }) {
               name="keywords"
               content="codewithrafay, web development, web development agency, CMS, WordPress, e-commerce, web apps, website bug fixes, coding articles, web development blog, word counter, text editor"
             />
-           
+
+            <link
+              rel="preconnect"
+              href="https://cloud.appwrite.io"
+              crossorigin
+            />
+
+            <link rel="dns-prefetch" href="//cloud.appwrite.io" />
           </Head>
 
           <div className={[poppins.className, "dark:bg-gray-900"].join(" ")}>
