@@ -61,8 +61,10 @@ const generateOtherURLs = () => {
 
 export async function getServerSideProps({ res }) {
   try {
-    const blogCollectionId = '65e6a2957e9c71c0db5c'; // Assuming this is for blogs
-    const videoCollectionId = '6683705f0023464bd1dc'; // Replace with your actual video collection ID
+    const blogCollectionId = process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID; 
+
+    const videoCollectionId = process.env.NEXT_PUBLIC_APPWRITE_VIDEOS_COLLECTION_ID;
+
     const blogDocuments = await Fetching(blogCollectionId);
     const videoDocuments = await Fetching(videoCollectionId);
 

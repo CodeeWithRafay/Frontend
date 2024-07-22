@@ -11,7 +11,7 @@ import { HandleSignup } from './api/post';
 import AuthContext from '@/components/AuthContext';
 import { useRouter } from 'next/router';
 
-const SignupPage = () =>
+const Signup = () =>
 {
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [email, setEmail] = useState('');
@@ -255,7 +255,7 @@ const SignupPage = () =>
               </div>
 
               <ReCAPTCHA
-                sitekey="6Ld2cGspAAAAABeeefHgheLz2fHX-nSWdtRKZSTx" 
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
                 onChange={handleRecaptchaChange}
                 className="mb-4"
               />
@@ -276,4 +276,4 @@ const SignupPage = () =>
   );
 };
 
-export default SignupPage;
+export default Signup;

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const PrivacyPolicy = () =>
+const Privacy = () =>
 {
     return (
         <>
@@ -103,4 +103,4 @@ const PrivacyPolicy = () =>
     );
 };
 
-export default PrivacyPolicy;
+export default Privacy;

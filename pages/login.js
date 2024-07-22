@@ -12,7 +12,7 @@ import AuthContext from '@/components/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 
 
-const LoginPage = () =>
+const Login = () =>
 {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
@@ -218,7 +218,7 @@ const LoginPage = () =>
 
             <div className="mt-4">
               <ReCAPTCHA
-                sitekey="6Ld2cGspAAAAABeeefHgheLz2fHX-nSWdtRKZSTx" // Replace with your actual sitekey
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
                 onChange={handleRecaptchaChange}
               />
             </div>
@@ -240,4 +240,4 @@ const LoginPage = () =>
   );
 };
 
-export default LoginPage;
+export default Login;

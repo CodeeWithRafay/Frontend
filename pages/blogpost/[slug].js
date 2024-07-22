@@ -32,7 +32,7 @@ export default function BlogPostPage({ blogs}) {
     useEffect(() => {
       const fetchComments = async () => {
         try {
-          const collectionIdComments = "65ee7a19e402a6b0ff30";
+          const collectionIdComments = process.env.NEXT_PUBLIC_APPWRITE_COMMENT_COLLECTION_ID;
           const commentResponse = await Fetching(collectionIdComments);
           const comments = commentResponse.documents.map((document) => document);
           const filteringComments = comments.filter(
@@ -41,7 +41,7 @@ export default function BlogPostPage({ blogs}) {
           
           setBlogPostComments(filteringComments);
   
-          const collectionIdReplies = "65f158d4f40d89610edb";
+          const collectionIdReplies = process.env.NEXT_PUBLIC_APPWRITE_REPLIES_COLLECTION_ID;
           const replyCommentResponse = await Fetching(collectionIdReplies);
           const replyComments = replyCommentResponse.documents.map((document) => document);
           setRepliedComments(replyComments);
@@ -590,7 +590,7 @@ export default function BlogPostPage({ blogs}) {
 }
 
 export async function getStaticPaths() {
-  const collectionId = "65e6a2957e9c71c0db5c"; 
+  const collectionId = process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID; 
   const response = await Fetching(collectionId);
   const paths = response.documents.map((blog) => ({
     params: { slug: blog.slug }, 
@@ -603,7 +603,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const collectionId = "65e6a2957e9c71c0db5c";
+  const collectionId = process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID;
+  
 
   let blogs = [];
 

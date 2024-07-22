@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import Image from 'next/image';
 import { Fetching } from './api/fetching';
-import Spinner from '@/components/Spinner';
 import Head from 'next/head';
 
 
@@ -72,7 +71,7 @@ export async function getStaticProps(context) {
   let mappedDocuments = [];
 
   try {
-    const collectionId = '66836b64001276075376';
+    const collectionId = process.env.NEXT_PUBLIC_APPWRITE_VIDEOS_MAIN_COLLECTION_ID;
     const documents = await Fetching(collectionId);
     mappedDocuments = documents.documents.map((document) => document);
   } catch (error) {

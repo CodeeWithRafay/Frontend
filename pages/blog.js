@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '@/components/Spinner';
 import logo from '@/image/logo.png';
 import Head from 'next/head';
 import { Client, Databases, Query } from "appwrite";
@@ -14,7 +13,7 @@ const Blog = ({ initialBlogs }) => {
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState(null);
 
-  const collectionId = '65e6a2957e9c71c0db5c';
+  const collectionId = process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID;
   const limit = 10;
 
   const getMorePost = async () => {
@@ -25,8 +24,8 @@ const Blog = ({ initialBlogs }) => {
       const databases = new Databases(client);
 
       client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('65e69a022811af019dca');
+      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
       const queries = [
         Query.limit(limit),
@@ -37,7 +36,7 @@ const Blog = ({ initialBlogs }) => {
         queries.push(Query.cursorAfter(cursor));
       }
 
-      const response = await databases.listDocuments('65e6a28976615aa73abb', collectionId, queries);
+      const response = await databases.listDocuments(process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID, collectionId, queries);
 
       const newBlogs = response.documents.filter(doc => !initialBlogs.some(initialBlog => initialBlog.$id === doc.$id));
 
@@ -121,10 +120,10 @@ export async function getStaticProps() {
     const databases = new Databases(client);
 
     client
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('65e69a022811af019dca');
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
-    const response = await databases.listDocuments('65e6a28976615aa73abb', '65e6a2957e9c71c0db5c', [
+    const response = await databases.listDocuments(process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID, process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID, [
       Query.limit(10),
       Query.orderDesc('$createdAt'),
     ]);

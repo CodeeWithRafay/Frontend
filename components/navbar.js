@@ -169,14 +169,14 @@ export default function Navbar() {
                 {session ? (
                   <button
                     onClick={handleSignOut}
-                    className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 hover:bg-purple-800 rounded-lg text-sm mt-4 font-medium focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 text-pretty"
+                    className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3 hover:bg-purple-800 rounded-lg text-sm mt-4 font-medium focus:outline-purple-500 focus:outline dark:hover:bg-purple-700"
                   >
                     Logout
                   </button>
                 ) : (
                   <>
                     <Link href="/login">
-                      <button className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3  hover:bg-purple-800 focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 rounded-lg text-sm mt-4 font-medium text-pretty">
+                      <button className="inline-flex items-center bg-purple-700 dark:bg-purple-600 text-white border-0 py-2 px-3  hover:bg-purple-800 focus:outline-purple-500 focus:outline dark:hover:bg-purple-700 rounded-lg text-sm mt-4 font-medium">
                         Login
                       </button>
                     </Link>

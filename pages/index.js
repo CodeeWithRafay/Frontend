@@ -272,67 +272,7 @@ export default function Page() {
         </div>
       </div>
     
-      <section className="my-10 w-full xl:container mx-auto flex justify-center items-center flex-col dark:text-white">
-      <div className="container mx-auto px-4">
-      <h2 className="capitalize text-3xl text-center  font-medium dark:text-purple-500">
-        Our Latest Work
-        </h2>
-          <div className="grid grid-cols-2 justify-items-center  bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700 my-5">
-            <div>
-          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
-              COSMETICS SHOP
-              </span>
-            <h3 className="text-2xl font-semibold mb-2">Deloitte</h3>
-            <p className="mt-3 h-32 text-md max-w-lg ">
-              Discover our cosmetics shop, offering a wide range of beauty products with amazing features. From skincare to makeup, find everything you need to enhance your beauty. Shop now and experience the difference!
-              </p>
-            <div className="flex flex-wrap mb-4">
-              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
-              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
-              <span className="dark:bg-purple-900 bg-purple-700 cursor-pointer text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
-            </div>
-            <p className="text-sm italic mb-2">The service was excellent. Template example is the next killer app."</p>
-            <div className="flex items-center">
-              <Image src={logo} alt="Jeremy Douglass" width={40} height={40} className="rounded-full mr-2" />
-              <div className="flex flex-col text-center">
-              <span className="text-sm text-purple-500">Jeremy Douglass</span>
-              <span className="text-sm text-gray-500">UI & UX Designer</span>
-              </div>
-            </div>
-            </div>
-            <div>
-              <Image src={image6} alt="img" />
-            </div>
-          </div>
-        <div className="grid grid-cols-2 my-5  gap-1">
-          <div className=" bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700">
-          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
-              COSMETICS SHOP
-              </span>
-            <h3 className="text-2xl font-semibold mb-2">Raze</h3>
-            <p className="mb-4">Project was about precision and information. That&apos;s all.</p>
-            <div className="flex flex-wrap mb-4">
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
-            </div>
-          </div>
-          {/* Project 3 */}
-          <div className=" bg-white shadow-lg shadow-gray-300 rounded-2xl text-md dark:bg-slate-800 dark:shadow-black dark:shadow-sm p-6 border dark:border-gray-700">
-          <span className="uppercase font-semibold text-xs tracking-widest dark:text-purple-400 text-purple-600">
-              COSMETICS SHOP
-              </span>
-            <h3 className="text-2xl font-semibold mb-2">Quillow</h3>
-            <p className="mb-4">Project was about precision and information.</p>
-            <div className="flex flex-wrap mb-4">
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Branding</span>
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Graphic Design</span>
-              <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm mb-2">User Stories</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+     
 
       <div className="w-full container mx-auto flex justify-center items-center flex-col mb-16 ">
         <section className="text-gray-600 body-font">

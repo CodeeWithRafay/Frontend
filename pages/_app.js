@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }) {
       <AuthProvider>
         <GoogleOAuthProvider
           clientId={
-            "771878262256-uec5aead2i9dlg5i2pjuv27vjvgk0c19.apps.googleusercontent.com"
+            process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
           }
         >
           <Head>

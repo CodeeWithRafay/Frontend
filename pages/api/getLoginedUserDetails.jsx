@@ -1,8 +1,8 @@
 import { Client, Account } from 'appwrite';
 
 const client = new Client()
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('65e69a022811af019dca');
+.setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+.setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
 const account = new Account(client);
 
@@ -11,7 +11,6 @@ export async function getLoginedUserDetails() {
         const user = await account.get();
         return user;
     } catch (error) {
-        console.error('Error fetching user details:', error);
-        throw error; 
+      
     }
 }

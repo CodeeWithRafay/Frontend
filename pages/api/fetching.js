@@ -7,10 +7,10 @@ export async function Fetching ( collectionId ) {
   const databases = new Databases(client);
 
   client
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('65e69a022811af019dca');
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
-  const promise = databases.listDocuments('65e6a28976615aa73abb', collectionId);
+  const promise = databases.listDocuments(process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID, collectionId);
 
   return promise.then(function (response) {
     return response

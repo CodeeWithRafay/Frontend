@@ -1,6 +1,5 @@
 import { Client, Databases, Account, ID, AppwriteException } from "appwrite";
 import { toast } from "react-toastify";
-import { SignJWT } from 'jose';
 
 
 function handleError(error)
@@ -48,14 +47,14 @@ export async function HandleCommentPost(text, slug, username)
     const formattedusername = username.split('@')[0];
 
     const client = new Client()
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('65e69a022811af019dca');
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
     const databases = new Databases(client);
 
     const promise = databases.createDocument(
-        '65e6a28976615aa73abb',
-        '65ee7a19e402a6b0ff30',
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_COMMENT_COLLECTION_ID,
         ID.unique(),
         {
             commentText: text,
@@ -79,14 +78,14 @@ export async function HandleReplyPostComment(text, commentId, username)
     const formattedDate = new Date().toISOString().slice(0, 10);
 
     const client = new Client()
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('65e69a022811af019dca');
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
     const databases = new Databases(client);
 
     const promise = databases.createDocument(
-        '65e6a28976615aa73abb',
-        '65f158d4f40d89610edb',
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+        process.env.NEXT_PUBLIC_APPWRITE_REPLIES_COLLECTION_ID,
         ID.unique(),
         {
             repliesText: text,
@@ -106,9 +105,10 @@ export async function HandleReplyPostComment(text, commentId, username)
 
 }
 
-const client = new Client()
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('65e69a022811af019dca');
+const client = new Client() 
+.setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+.setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+    
 
 const account = new Account(client);
 

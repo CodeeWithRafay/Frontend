@@ -28,20 +28,20 @@ const Search = () => {
       try {
         // Fetch data for all categories
         const videosResponse = databases.listDocuments(
-          "65e6a28976615aa73abb",
-          "6683705f0023464bd1dc",
+          process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+          process.env.NEXT_PUBLIC_APPWRITE_VIDEOS_COLLECTION_ID,
           [Query.search("VideoTitle", query)]
         );
 
         const blogsResponse = databases.listDocuments(
-          "65e6a28976615aa73abb",
-          "65e6a2957e9c71c0db5c",
+          process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+          process.env.NEXT_PUBLIC_APPWRITE_BLOG_COLLECTION_ID,
           [Query.search("title", query)]
         );
 
         const portfolioResponse = databases.listDocuments(
-          "65e6a28976615aa73abb",
-          "66594c42003b5b5332f7",
+          process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+          process.env.NEXT_PUBLIC_APPWRITE_PORTFOLIO_COLLECTION_ID,
           [Query.search("ProjectTitle", query)]
         );
 

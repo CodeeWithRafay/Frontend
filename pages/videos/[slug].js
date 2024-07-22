@@ -26,7 +26,7 @@ export default function Videos({ CourseVideos, slug }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const collectionIdComments = "65ee7a19e402a6b0ff30";
+        const collectionIdComments = process.env.NEXT_PUBLIC_APPWRITE_COMMENT_COLLECTION_ID;
         const commentResponse = await Fetching(collectionIdComments);
         const comments = commentResponse.documents.map((document) => document);
         setBlogPostComments(comments);
@@ -85,13 +85,13 @@ export default function Videos({ CourseVideos, slug }) {
       }
 
       try {
-        // Call your API function to post the reply
+
         await HandleReplyPostComment(replyCommentText, id, Username);
 
-        // Update repliedComments state to include the replied comment ID
+        
         setRepliedComments([...repliedComments, id]);
 
-        // Update BlogPostComments state to immediately show the reply
+       
         setBlogPostComments((prevComments) => {
           return prevComments.map((comment) => {
             if (comment.$id === id) {
@@ -694,7 +694,7 @@ export default function Videos({ CourseVideos, slug }) {
 }
 
 export async function getStaticPaths() {
-  const collectionIdVideos = "6683705f0023464bd1dc";
+  const collectionIdVideos =  process.env.NEXT_PUBLIC_APPWRITE_VIDEOS_COLLECTION_ID;
   const videos = await Fetching(collectionIdVideos);
   const paths = videos.documents.map((document) => ({
     params: { slug: document.VideoSlug },
@@ -709,7 +709,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   let CourseVideos = [];
-  const collectionIdVideos = "66836b64001276075376";
+  const collectionIdVideos = process.env.NEXT_PUBLIC_APPWRITE_VIDEOS_MAIN_COLLECTION_ID;
 
   try {
     const videos = await Fetching(collectionIdVideos);
